@@ -51,7 +51,10 @@ bash scripts/setup/install.sh
 # 2. Activate (fixes nvjitlink shim + adds src/ + src/verl_runtime to PYTHONPATH).
 source scripts/setup/activate.sh
 
-# 3. Authenticate with HuggingFace if you need llama / gated repos.
+# 3. Authenticate with HuggingFace. Required to fetch:
+#      - GPQA-Diamond (Idavidrein/gpqa is a gated dataset),
+#      - llama3.2-3b-instruct (also gated).
+# Skip only if you need neither.
 huggingface-cli login
 
 # 4. Download supported models (default = qwen3-1.7b-base only).
@@ -64,7 +67,9 @@ python scripts/setup/download_datasets.py --all
 ```
 
 Models land under `model_checkpoints/<alias>/`, datasets under
-`datasets/<name>.jsonl`.
+`datasets/<name>.jsonl` (6 files: `math_train_clean.jsonl`, `math500_full.jsonl`,
+`aime2024_full.jsonl`, `gsm8k_test.jsonl`, `humaneval_full.jsonl`,
+`gpqa_diamond.jsonl`).
 
 ## Quick start
 
