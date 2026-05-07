@@ -17,7 +17,10 @@
 #   TAG                run tag (default duet_<model>_b<budget>)
 #   DUET_BUDGET        fraction of GRPO full-budget (0.25 / 0.5 / 1.0; default 0.5)
 #   DUET_SURROGATE     path to ridge weights JSON (default outputs/duet/ridge_weights.json)
-#   DUET_GRACE_WINDOW  marker-gated grace tokens after K2 (default 150)
+#   DUET_MARKER_DOMAIN "none" (default; allocator+max-tokens only — paper-faithful baseline)
+#                      "math" / "code" / "generic" (also enables marker-gated abort)
+#   DUET_GRACE_WINDOW  marker-gated grace tokens after K2 (default 150;
+#                      irrelevant when MARKER_DOMAIN=none)
 #   DUET_K_WARMUP      σ̂ warmup observation count (default 1; do not regress to 2)
 
 set -euo pipefail
@@ -35,6 +38,7 @@ apply_model_config "${MODEL:-qwen3-1.7b-base}"
 SEED="${SEED:-0}"
 DUET_BUDGET="${DUET_BUDGET:-0.5}"
 DUET_SURROGATE="${DUET_SURROGATE:-outputs/duet/ridge_weights.json}"
+DUET_MARKER_DOMAIN="${DUET_MARKER_DOMAIN:-none}"
 DUET_GRACE_WINDOW="${DUET_GRACE_WINDOW:-150}"
 DUET_K_WARMUP="${DUET_K_WARMUP:-1}"
 TAG="${TAG:-duet_${MODEL_ALIAS}_b$(echo "$DUET_BUDGET" | tr '.' 'p')}"
@@ -82,7 +86,7 @@ ARGS=(
     --duet-threshold-mode linear
     --duet-top-k 3
     --duet-hysteresis-k 1
-    --duet-marker-domain math
+    --duet-marker-domain "$DUET_MARKER_DOMAIN"
     --duet-grace-window "$DUET_GRACE_WINDOW"
     --duet-abort-eps 0.05
     --duet-k-history 1024
@@ -98,6 +102,6 @@ ARGS=(
 export DUET_S_HAT_K_WARMUP="$DUET_K_WARMUP"
 
 echo "[run_duet] model=$MODEL_ALIAS gpus=$GPUS_PER_NODE seed=$SEED tag=$TAG"
-echo "[run_duet] budget=$DUET_BUDGET surrogate=$DUET_SURROGATE k_warmup=$DUET_K_WARMUP"
+echo "[run_duet] budget=$DUET_BUDGET surrogate=$DUET_SURROGATE k_warmup=$DUET_K_WARMUP marker_domain=$DUET_MARKER_DOMAIN"
 echo "[run_duet] VLLM_USE_V1=$VLLM_USE_V1 (DUET requires V0)"
 exec python src/run_duet_verl.py "${ARGS[@]}" --launch "$@"

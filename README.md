@@ -133,7 +133,8 @@ The defaults reproduce the paper. Override with environment variables to
 |---                   |---         |---|
 | `DUET_BUDGET`        | `0.5`      | $B/B_{\text{full}}$, fraction of GRPO's full-budget step |
 | `DUET_SURROGATE`     | `outputs/duet/ridge_weights.json` | path to pre-fit ridge weights |
-| `DUET_GRACE_WINDOW`  | `150`      | tokens past K2 before marker abort |
+| `DUET_MARKER_DOMAIN` | `none`     | `none` = allocator + per-prompt max-tokens cap only (paper-faithful baseline). `math` / `code` / `generic` additionally enable marker-gated abort — only safe on instruct-tuned models that emit answer markers reliably. |
+| `DUET_GRACE_WINDOW`  | `150`      | tokens past K2 before marker abort (only used when `DUET_MARKER_DOMAIN ≠ none`) |
 | `DUET_K_WARMUP`      | `1`        | observations needed before $\hat\sigma_q^{\text{obs}}$ replaces ridge |
 | `MODEL`              | `qwen3-1.7b-base` | model alias |
 | `SEED`               | `0`        | global seed |
