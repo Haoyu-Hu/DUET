@@ -37,6 +37,13 @@ cd "$REPO_ROOT"
 # DUET requires V0 vLLM. Must be set BEFORE python imports vLLM.
 export VLLM_USE_V1=0
 
+# Match the original launch_sirl.sh chain — these were exported BEFORE python
+# in the working setup. Missing them is what diverges runs on fresh servers.
+export TOKENIZERS_PARALLELISM="${TOKENIZERS_PARALLELISM:-false}"
+export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+export DUET_GLOBAL_SEED="${SEED:-0}"
+export PYTHONHASHSEED="${SEED:-0}"
+
 # shellcheck source=_model_config.sh
 source "$REPO_ROOT/scripts/_model_config.sh"
 apply_model_config "${MODEL:-qwen3-1.7b-base}"

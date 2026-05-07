@@ -24,6 +24,12 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
+# Match the original launch_sirl.sh env-var setup.
+export TOKENIZERS_PARALLELISM="${TOKENIZERS_PARALLELISM:-false}"
+export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+export DUET_GLOBAL_SEED="${SEED:-0}"
+export PYTHONHASHSEED="${SEED:-0}"
+
 # shellcheck source=_model_config.sh
 source "$REPO_ROOT/scripts/_model_config.sh"
 apply_model_config "${MODEL:-qwen3-1.7b-base}"
