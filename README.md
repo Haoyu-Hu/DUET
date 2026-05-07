@@ -115,6 +115,15 @@ duet/n_epsilon_kept, duet/epsilon_kept_rate
 duet/divisibility_mode
 ```
 
+> **Note on the tqdm step-time estimate.** The progress-bar wall-clock per
+> step (e.g. `73/232 [49:24<1:16:26, 28.84s/it]`) is **not** the pure
+> training step time. It is amortized over training **plus periodic
+> validation** — every `--test-freq` steps (default 30) verl runs the full
+> 5-dataset eval suite (≈ several minutes per pass), which inflates the
+> averaged `s/it`. To compare DUET vs GRPO step cost, read
+> `timing/gen_per_step` and `timing/update_per_step` from TensorBoard
+> instead, or set `--test-freq 0` for a pure-training run.
+
 ## DUET hyperparameters
 
 The defaults reproduce the paper. Override with environment variables to

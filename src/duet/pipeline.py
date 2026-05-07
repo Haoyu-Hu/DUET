@@ -55,7 +55,7 @@ def _resolve_tasks(dataset: str, dataset_path: str | None, max_samples: int) -> 
     dataset_type, tasks, source_path = resolve_dataset(dataset, dataset_path, max_samples)
     if dataset_type not in ("math", "code"):
         raise DatasetError(
-            f"{dataset} resolved to {dataset_type}; SIRL pipeline supports math or code only."
+            f"{dataset} resolved to {dataset_type}; DUET pipeline supports math or code only."
         )
     return dataset_type, tasks, source_path
 
@@ -437,12 +437,12 @@ def _build_duet_predictable(args: Any) -> PipelineArtifacts:
             args.dataset, args.dataset_path, args.max_samples
         )
         train_tasks, val_tasks = _task_no_split(tasks)
-    data_tag = args.task_name or f"{_dataset_stem(args.dataset, args.dataset_path).upper()}-SIRL"
+    data_tag = args.task_name or f"{_dataset_stem(args.dataset, args.dataset_path).upper()}-DUET"
     # When a separate val dataset is provided, tag test records with its name so
     # TB metrics surface as val-core/<VAL_NAME>-SIRL/... instead of borrowing
     # the train tag (which previously made mbpp-test val read as MBPP-TRAIN-SIRL).
     if val_dataset_name and val_dataset_name != args.dataset:
-        val_data_tag = f"{_dataset_stem(val_dataset_name, val_dataset_path_arg).upper()}-SIRL"
+        val_data_tag = f"{_dataset_stem(val_dataset_name, val_dataset_path_arg).upper()}-DUET"
     else:
         val_data_tag = data_tag
 
@@ -488,7 +488,7 @@ def _build_duet_predictable(args: Any) -> PipelineArtifacts:
                     f"unified router supports math or code only."
                 )
             additional_val_kinds.add(extra_kind)
-            extra_tag = f"{_dataset_stem(alias, None).upper()}-SIRL"
+            extra_tag = f"{_dataset_stem(alias, None).upper()}-DUET"
             extra_parquet = data_root / f"test_{alias.replace('-', '_')}.parquet"
             extra_records = [
                 _make_verl_record(task, idx, "test", extra_tag, extra_kind)
