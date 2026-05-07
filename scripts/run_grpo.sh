@@ -59,6 +59,7 @@ ARGS=(
     --reward-manager prime
     --verifier-mode ground_truth
     --actor-lr 3e-6
+    --lora-rank 0
     --gpus-per-node "$GPUS_PER_NODE"
     --gpu-memory-utilization "$GPU_MEM_UTIL"
     --max-num-seqs "$MAX_NUM_SEQS"

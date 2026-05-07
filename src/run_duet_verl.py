@@ -112,9 +112,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--beta1", type=float, default=0.9)
     parser.add_argument("--beta2", type=float, default=0.999)
 
-    # LoRA
-    parser.add_argument("--lora-rank", type=int, default=32,
-                        help="Set to 0 to disable LoRA and run full-parameter training.")
+    # LoRA — DEFAULT 0 (full-parameter FT). The DUET paper experiments are
+    # full-FT; LoRA rank 32 + lr 3e-6 underfits at the 30-step checkpoint and
+    # produces a different policy trajectory. Set --lora-rank 32 explicitly
+    # to opt into LoRA training.
+    parser.add_argument("--lora-rank", type=int, default=0,
+                        help="0 = full-parameter FT (paper default). >0 enables LoRA.")
     parser.add_argument("--lora-alpha", type=int, default=16)
     parser.add_argument("--lora-target-modules", default="all-linear")
 
