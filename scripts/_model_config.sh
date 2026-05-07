@@ -44,10 +44,17 @@ apply_model_config() {
             ;;
     esac
 
-    # Default to all available GPUs in CUDA_VISIBLE_DEVICES.
+    # Default to all visible GPUs. Resolution order:
+    #   1. explicit GPUS_PER_NODE env var (highest priority)
+    #   2. CUDA_VISIBLE_DEVICES (count comma-separated entries)
+    #   3. nvidia-smi -L (count physical GPUs on the host)
+    #   4. fall back to 1
     if [[ -z "${GPUS_PER_NODE:-}" ]]; then
         if [[ -n "${CUDA_VISIBLE_DEVICES:-}" ]]; then
             GPUS_PER_NODE=$(awk -F, '{print NF}' <<<"$CUDA_VISIBLE_DEVICES")
+        elif command -v nvidia-smi >/dev/null 2>&1; then
+            GPUS_PER_NODE=$(nvidia-smi -L 2>/dev/null | grep -c '^GPU ')
+            [[ "$GPUS_PER_NODE" -ge 1 ]] || GPUS_PER_NODE=1
         else
             GPUS_PER_NODE=1
         fi
