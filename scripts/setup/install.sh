@@ -73,6 +73,20 @@ if [[ "$SKIP_FLASH" != "1" ]]; then
     }
 fi
 
+# Patch vLLM 0.9.2's ovis.py to add exist_ok=True on the aimv2 registration.
+# Transformers >= 4.51 registers aimv2 natively; without exist_ok=True the
+# duplicate registration raises:
+#   ValueError: 'aimv2' is already used by a Transformers config, pick another name.
+# Fixed upstream in vLLM 0.10+; we patch in place since we pin <0.10 for verl
+# compatibility.
+OVIS_PY="$VENV_PATH/lib/python3.12/site-packages/vllm/transformers_utils/configs/ovis.py"
+if [[ -f "$OVIS_PY" ]]; then
+    if grep -q 'AutoConfig.register("aimv2", AIMv2Config)$' "$OVIS_PY"; then
+        echo "[install] Patching $OVIS_PY (aimv2 register exist_ok=True)"
+        sed -i 's|AutoConfig\.register("aimv2", AIMv2Config)$|AutoConfig.register("aimv2", AIMv2Config, exist_ok=True)|' "$OVIS_PY"
+    fi
+fi
+
 echo "[install] Import smoke check"
 python - <<'PY'
 import torch, vllm, peft
