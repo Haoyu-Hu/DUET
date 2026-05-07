@@ -1,6 +1,6 @@
 # DUET: Optimize Budget-Token Allocation for Reinforcement Learning with Verifiable Rewards
 
-![DUET schematic](figure/schematics-ver4.png)
+![DUET schematic](figure/schematics-ver6.png)
 
 Reference implementation of **DUET**, a joint allocator that splits a fixed
 training-time token budget across prompts (rollout count) *and* within each
@@ -164,7 +164,7 @@ The defaults reproduce the paper. Override with environment variables to
 duet-code-repo/
 ├── README.md
 ├── figure/
-│   └── schematics-ver4.{pdf,png}     # method figure (rendered above)
+│   └── schematics-ver6.png           # method figure (rendered above)
 ├── scripts/
 │   ├── run_grpo.sh                   # GRPO reference launcher
 │   ├── run_duet.sh                   # DUET launcher (forces vLLM V0)
