@@ -583,17 +583,13 @@ def _build_duet_predictable(args: Any) -> PipelineArtifacts:
         },
     )
 
-    # Verifier selection. This clean repo supports math (ttrl_math) and
-    # code (mbpp_code / humaneval-style asserts) verifiers; LLM-judge is
-    # math-only. The mixed router (math+code in a single run) and the
-    # standalone code router were retired alongside the SIRL/CPR/BSV cleanup.
+    # Verifier selection: ttrl_math (default), mbpp_code, llm_judge_math, or
+    # the unified router that dispatches per-data_source for mixed math+code val
+    # (e.g. MATH train + HumanEval eval).
     _verifier_mode = getattr(args, "verifier_mode", "ground_truth")
     if mixed_val_kinds:
-        raise DatasetError(
-            "Mixed math+code val datasets require the retired unified router; "
-            "run math and code datasets in separate experiments."
-        )
-    if dataset_kind_resolved == "code":
+        reward_path = PROJECT_ROOT / "src" / "duet" / "unified_router_reward.py"
+    elif dataset_kind_resolved == "code":
         reward_path = runtime_root / "verl" / "utils" / "reward_score" / "mbpp_code" / "__init__.py"
     elif _verifier_mode == "llm_judge":
         reward_path = runtime_root / "verl" / "utils" / "reward_score" / "llm_judge_math" / "__init__.py"
