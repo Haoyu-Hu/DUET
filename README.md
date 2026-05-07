@@ -131,11 +131,17 @@ The defaults reproduce the paper. Override with environment variables to
 
 | Var                  | Default    | Meaning |
 |---                   |---         |---|
-| `DUET_BUDGET`        | `0.5`      | $B/B_{\text{full}}$, fraction of GRPO's full-budget step |
-| `DUET_SURROGATE`     | `outputs/duet/ridge_weights.json` | path to pre-fit ridge weights |
-| `DUET_MARKER_DOMAIN` | `none`     | `none` = allocator + per-prompt max-tokens cap only (paper-faithful baseline). `math` / `code` / `generic` additionally enable marker-gated abort — only safe on instruct-tuned models that emit answer markers reliably. |
-| `DUET_GRACE_WINDOW`  | `150`      | tokens past K2 before marker abort (only used when `DUET_MARKER_DOMAIN ≠ none`) |
-| `DUET_K_WARMUP`      | `1`        | observations needed before $\hat\sigma_q^{\text{obs}}$ replaces ridge |
+| `DUET_BUDGET`         | `0.5`               | $B/B_{\text{full}}$, fraction of GRPO's full-budget step |
+| `DUET_SURROGATE`      | `outputs/duet/ridge_weights.json` | path to pre-fit ridge weights |
+| `DUET_K_WARMUP`       | `1`                 | observations needed before $\hat\sigma_q^{\text{obs}}$ replaces ridge |
+| `DUET_STOP_SIGNAL`    | `margin`            | per-token stop signal: `margin` (max − 2nd-max prob) is the working default. `max_prob` collapses to floor on a base model. |
+| `DUET_THRESHOLD_MODE` | `batch_percentile`  | per-prompt threshold mapping. `batch_percentile` distributes thresholds across the [floor, ceiling] band by batch rank. `linear` collapses to floor when the surrogate is uncalibrated. |
+| `DUET_STOP_FLOOR`     | `0.5`               | minimum stop threshold |
+| `DUET_MIN_TOKENS`     | `200`               | hard min response length before the stop processor can fire |
+| `DUET_HYSTERESIS_K`   | `5`                 | require K consecutive past-threshold tokens before forcing EOS |
+| `DUET_MARKER_DOMAIN`  | `math`              | `math` / `code` / `generic` enable marker-gated abort; `none` = allocator + per-token stop only |
+| `DUET_GRACE_WINDOW`   | `150`               | tokens past K2 before marker abort fires |
+| `DUET_ABORT_EPS`      | `0.05`              | ε-keep rate for no-marker rollouts (SNIPS unbiasedness) |
 | `MODEL`              | `qwen3-1.7b-base` | model alias |
 | `SEED`               | `0`        | global seed |
 | `TAG`                | auto-derived | run tag (TB experiment name) |

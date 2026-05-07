@@ -12,16 +12,22 @@
 #   MODEL=qwen3-4b-base DUET_BUDGET=0.5 bash scripts/run_duet.sh
 #
 # Environment knobs:
-#   MODEL              qwen3-1.7b-base (default) | qwen3-4b-base | llama3.2-3b-instruct
-#   SEED               integer (default 0)
-#   TAG                run tag (default duet_<model>_b<budget>)
-#   DUET_BUDGET        fraction of GRPO full-budget (0.25 / 0.5 / 1.0; default 0.5)
-#   DUET_SURROGATE     path to ridge weights JSON (default outputs/duet/ridge_weights.json)
-#   DUET_MARKER_DOMAIN "none" (default; allocator+max-tokens only — paper-faithful baseline)
-#                      "math" / "code" / "generic" (also enables marker-gated abort)
-#   DUET_GRACE_WINDOW  marker-gated grace tokens after K2 (default 150;
-#                      irrelevant when MARKER_DOMAIN=none)
-#   DUET_K_WARMUP      σ̂ warmup observation count (default 1; do not regress to 2)
+#   MODEL                  qwen3-1.7b-base (default) | qwen3-4b-base | llama3.2-3b-instruct
+#   SEED                   integer (default 0)
+#   TAG                    run tag (default duet_<model>_b<budget>)
+#   DUET_BUDGET            fraction of GRPO full-budget (0.25 / 0.5 / 1.0; default 0.5)
+#   DUET_SURROGATE         path to ridge weights JSON (default outputs/duet/ridge_weights.json)
+#   DUET_K_WARMUP          σ̂ warmup observation count (default 1; do not regress to 2)
+# Stop-processor knobs (defaults match the math sweep in recover/duet-experiment.md):
+#   DUET_STOP_SIGNAL       margin (default) | max_prob | mean_logprob | entropy | top_k_mass
+#   DUET_THRESHOLD_MODE    batch_percentile (default) | linear | log_scale
+#   DUET_STOP_FLOOR        0.5 (default)
+#   DUET_MIN_TOKENS        200 (default; 32 starves reasoning on a base model)
+#   DUET_HYSTERESIS_K      5 (default; require K consecutive past-threshold tokens)
+#   DUET_TOP_K             3 (default; only used by top_k_mass signal)
+#   DUET_MARKER_DOMAIN     math (default) | none | code | generic
+#   DUET_GRACE_WINDOW      150 (tokens past K2 before marker abort; ignored when MARKER_DOMAIN=none)
+#   DUET_ABORT_EPS         0.05 (default; ε-keep rate for no-marker rollouts)
 
 set -euo pipefail
 
@@ -38,9 +44,22 @@ apply_model_config "${MODEL:-qwen3-1.7b-base}"
 SEED="${SEED:-0}"
 DUET_BUDGET="${DUET_BUDGET:-0.5}"
 DUET_SURROGATE="${DUET_SURROGATE:-outputs/duet/ridge_weights.json}"
-DUET_MARKER_DOMAIN="${DUET_MARKER_DOMAIN:-none}"
-DUET_GRACE_WINDOW="${DUET_GRACE_WINDOW:-150}"
 DUET_K_WARMUP="${DUET_K_WARMUP:-1}"
+
+# Stop-processor defaults (proven on math-train-clean / Qwen3-1.7B-Base).
+# These four together (margin signal + batch_percentile + min_tokens=200 +
+# hysteresis_k=5) keep the per-token stop from over-truncating before the
+# response has emitted anything useful.
+DUET_STOP_SIGNAL="${DUET_STOP_SIGNAL:-margin}"
+DUET_THRESHOLD_MODE="${DUET_THRESHOLD_MODE:-batch_percentile}"
+DUET_STOP_FLOOR="${DUET_STOP_FLOOR:-0.5}"
+DUET_MIN_TOKENS="${DUET_MIN_TOKENS:-200}"
+DUET_HYSTERESIS_K="${DUET_HYSTERESIS_K:-5}"
+DUET_TOP_K="${DUET_TOP_K:-3}"
+DUET_MARKER_DOMAIN="${DUET_MARKER_DOMAIN:-math}"
+DUET_GRACE_WINDOW="${DUET_GRACE_WINDOW:-150}"
+DUET_ABORT_EPS="${DUET_ABORT_EPS:-0.05}"
+
 TAG="${TAG:-duet_${MODEL_ALIAS}_b$(echo "$DUET_BUDGET" | tr '.' 'p')}"
 
 # DUET pre-replicates per-prompt rollouts in ray_trainer; vLLM SamplingParams.n
@@ -80,15 +99,15 @@ ARGS=(
     --duet-surrogate-path "$DUET_SURROGATE"
     --duet-eps-pre 0.05
     --duet-eps-len 0.05
-    --duet-stop-signal max_prob
-    --duet-stop-floor 0.5
-    --duet-min-tokens 32
-    --duet-threshold-mode linear
-    --duet-top-k 3
-    --duet-hysteresis-k 1
+    --duet-stop-signal "$DUET_STOP_SIGNAL"
+    --duet-stop-floor "$DUET_STOP_FLOOR"
+    --duet-min-tokens "$DUET_MIN_TOKENS"
+    --duet-threshold-mode "$DUET_THRESHOLD_MODE"
+    --duet-top-k "$DUET_TOP_K"
+    --duet-hysteresis-k "$DUET_HYSTERESIS_K"
     --duet-marker-domain "$DUET_MARKER_DOMAIN"
     --duet-grace-window "$DUET_GRACE_WINDOW"
-    --duet-abort-eps 0.05
+    --duet-abort-eps "$DUET_ABORT_EPS"
     --duet-k-history 1024
     --duet-k-update-every 10
     --duet-n-min 1
@@ -102,6 +121,8 @@ ARGS=(
 export DUET_S_HAT_K_WARMUP="$DUET_K_WARMUP"
 
 echo "[run_duet] model=$MODEL_ALIAS gpus=$GPUS_PER_NODE seed=$SEED tag=$TAG"
-echo "[run_duet] budget=$DUET_BUDGET surrogate=$DUET_SURROGATE k_warmup=$DUET_K_WARMUP marker_domain=$DUET_MARKER_DOMAIN"
+echo "[run_duet] budget=$DUET_BUDGET surrogate=$DUET_SURROGATE k_warmup=$DUET_K_WARMUP"
+echo "[run_duet] stop: signal=$DUET_STOP_SIGNAL mode=$DUET_THRESHOLD_MODE floor=$DUET_STOP_FLOOR min_tokens=$DUET_MIN_TOKENS hyst_k=$DUET_HYSTERESIS_K"
+echo "[run_duet] marker: domain=$DUET_MARKER_DOMAIN grace=$DUET_GRACE_WINDOW abort_eps=$DUET_ABORT_EPS"
 echo "[run_duet] VLLM_USE_V1=$VLLM_USE_V1 (DUET requires V0)"
 exec python src/run_duet_verl.py "${ARGS[@]}" --launch "$@"
