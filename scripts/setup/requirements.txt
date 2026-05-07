@@ -61,6 +61,7 @@ numpy>=1.26,<2.0
 matplotlib>=3.10
 tqdm>=4.67
 scipy>=1.13
+tensorboard>=2.16          # used by verl/utils/tracking.py for TB SummaryWriter
 
 # vllm 0.9.x requires setuptools>=77.0.3,<80; the vendored verl needs <81.
 # Intersection: >=77.0.3,<80.
