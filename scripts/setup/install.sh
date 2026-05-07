@@ -78,13 +78,19 @@ fi
 # duplicate registration raises:
 #   ValueError: 'aimv2' is already used by a Transformers config, pick another name.
 # Fixed upstream in vLLM 0.10+; we patch in place since we pin <0.10 for verl
-# compatibility.
+# compatibility. Idempotent: skipped if exist_ok=True already present.
 OVIS_PY="$VENV_PATH/lib/python3.12/site-packages/vllm/transformers_utils/configs/ovis.py"
 if [[ -f "$OVIS_PY" ]]; then
-    if grep -q 'AutoConfig.register("aimv2", AIMv2Config)$' "$OVIS_PY"; then
+    if grep -qF 'AutoConfig.register("aimv2", AIMv2Config, exist_ok=True)' "$OVIS_PY"; then
+        echo "[install] $OVIS_PY already patched (aimv2 exist_ok=True)"
+    elif grep -qF 'AutoConfig.register("aimv2", AIMv2Config)' "$OVIS_PY"; then
         echo "[install] Patching $OVIS_PY (aimv2 register exist_ok=True)"
-        sed -i 's|AutoConfig\.register("aimv2", AIMv2Config)$|AutoConfig.register("aimv2", AIMv2Config, exist_ok=True)|' "$OVIS_PY"
+        sed -i 's|AutoConfig\.register("aimv2", AIMv2Config)|AutoConfig.register("aimv2", AIMv2Config, exist_ok=True)|' "$OVIS_PY"
+    else
+        echo "[install] WARNING: aimv2 register line not found in $OVIS_PY; vLLM layout may have changed"
     fi
+else
+    echo "[install] WARNING: $OVIS_PY missing; vllm not installed?"
 fi
 
 echo "[install] Import smoke check"
