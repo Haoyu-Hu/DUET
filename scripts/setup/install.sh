@@ -64,8 +64,10 @@ echo "[install] Installing remaining requirements from PyPI"
 pip install -r "$REQ_FILE"
 
 if [[ "$SKIP_FLASH" != "1" ]]; then
-    echo "[install] Installing flash-attn (no build isolation)"
-    pip install flash-attn==2.7.4 --no-build-isolation || {
+    # flash-attn imports torch in setup.py, so build isolation must be off.
+    # Pin range, not exact: PyPI only ships 2.7.4.post1 (no plain 2.7.4).
+    echo "[install] Installing flash-attn (>=2.7.4,<3, no build isolation)"
+    pip install "flash-attn>=2.7.4,<3" --no-build-isolation || {
         echo "[install] flash-attn build failed; rerun with SKIP_FLASH=1 to bypass." >&2
         exit 3
     }
