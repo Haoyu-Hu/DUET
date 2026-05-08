@@ -2,7 +2,7 @@
 
 ![DUET schematic](figure/schematics-ver6.png)
 
-Reference implementation of **DUET**, a joint allocator that splits a fixed
+Official Repository of **DUET**, a joint allocator that splits a fixed
 training-time token budget across prompts (rollout count) *and* within each
 rollout (per-prompt max-token cap) under a single Lagrange multiplier.
 
