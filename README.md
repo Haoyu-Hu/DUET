@@ -6,28 +6,20 @@ Official Repository of **DUET**, a joint allocator that splits a fixed
 training-time token budget across prompts (rollout count) *and* within each
 rollout (per-prompt max-token cap) under a single Lagrange multiplier.
 
-## Method
+## Main Results
 
-DUET solves the cost-weighted Neyman allocation problem online:
+![DUET budget–accuracy frontier](figure/fig1_money_plot.png)
 
-$$
-\min_{\{n_q,\,L_q\}} \sum_q \frac{\hat{\sigma}_q^{2}}{n_q\,L_q}
-\quad\text{s.t.}\quad \sum_q n_q\, L_q \le B,
-$$
+**DUET trains better models faster.** On Qwen3-1.7B-Base trained on MATH:
 
-with a per-prompt informativeness surrogate $\hat\sigma_q$ (ridge fit on
-prompt-logprob features, with a Welford-updated online correction
-$\hat\sigma_q^{\text{obs}}$ once $\geq k_{\text{warmup}}$ kept rollouts are
-seen) and a per-prompt expected-length estimate $\hat L_q$ (online mean over
-the K1/K2 quantile window). At inference time, DUET drives per-token
-termination via a marker-gated stop processor calibrated against the
-informativeness surrogate.
+- 🚀 **2.51× wall-clock speedup** — DUET at **half** the rollout budget matches or beats **full-budget** GRPO on all five reasoning benchmarks (MATH-500, GSM8K, AIME-2024, HumanEval, GPQA-Diamond).
+- 🥇 **Top of the budget–accuracy frontier** — at every budget point (quarter / half / full), DUET dominates the strongest budget-aware baselines (DAPO, ARRoL, VIP).
+- 📈 **The tighter the budget, the bigger the lead** — DUET's gap over the next-best baseline is **largest at quarter budget**, the regime where every wasted rollout matters most. Other methods give back quality for compute; DUET goes the other way.
+- 🔁 **The win transfers** — same headline holds at **4B scale (Qwen3-4B-Base)** and on a **cross-family check (Llama-3.2-3B-Instruct)**.
 
-The repository contains:
+The mechanism is one knob, not many: a single budget-pressure signal coordinates *which prompts deserve more rollouts* with *when each rollout should stop*. The controller learns to allocate compute online — the per-prompt rollout count starts uniform at 4 and fans out to as wide as [1, 32] within one epoch, and accuracy climbs fastest exactly during that fan-out.
 
-- The DUET allocator + surrogate + marker-gated stop processor.
-- A vendored `verl` runtime patched with the DUET hooks.
-- A GRPO baseline (vanilla, no DUET hooks engaged) as the reference comparator.
+The repository contains the full DUET stack: allocator + surrogate + marker-gated stop processor, a `verl` runtime patched with the DUET hooks, and a vanilla-GRPO reference comparator.
 
 ## Hardware & dependencies
 
@@ -164,7 +156,8 @@ The defaults reproduce the paper. Override with environment variables to
 duet-code-repo/
 ├── README.md
 ├── figure/
-│   └── schematics-ver6.png           # method figure (rendered above)
+│   ├── schematics-ver6.png           # method figure (rendered at the top)
+│   └── fig1_money_plot.png           # main-results figure
 ├── scripts/
 │   ├── run_grpo.sh                   # GRPO reference launcher
 │   ├── run_duet.sh                   # DUET launcher (forces vLLM V0)
