@@ -31,7 +31,7 @@ The repository contains:
 
 ## Hardware & dependencies
 
-- 1× node, ≥ 8× H100 80 GB (Qwen3-4B uses TP=2; Qwen3-1.7B uses TP=1).
+- (**Only For Paper Replication**) 1× node, ≥ 8× H100 80 GB (Qwen3-4B uses TP=2; Qwen3-1.7B uses TP=1).
 - Python 3.12, CUDA 13 host, `cu128` PyTorch wheels.
 - `torch==2.7.0`, `verl==0.4.1`, `vllm==0.9.x`, `ray==2.54`, `tensordict==0.6.2`,
   `flash-attn>=2.7.4,<3` (currently resolves to `2.7.4.post1`).
