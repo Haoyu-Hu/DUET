@@ -36,8 +36,9 @@ The repository contains the full DUET stack: allocator + surrogate + marker-gate
   `flash-attn>=2.7.4,<3` (currently resolves to `2.7.4.post1`).
 
 DUET requires **vLLM V0** because per-request `LogitsProcessors` are not
-supported under V1 in vLLM 0.9.2. `scripts/run_duet.sh` exports
-`VLLM_USE_V1=0` before vLLM is imported.
+supported under V1 in vLLM 0.9.2. Both `scripts/run_duet.sh` and
+`scripts/run_grpo.sh` export `VLLM_USE_V1=0` before vLLM is imported, so
+DUET and the GRPO reference run on the same engine (as in the paper).
 
 ## Setup
 
@@ -169,7 +170,7 @@ duet-code-repo/
 │   ├── fig1_money_plot.png           # main-results figure
 │   └── duet_results.svg              # animated headline results
 ├── scripts/
-│   ├── run_grpo.sh                   # GRPO reference launcher
+│   ├── run_grpo.sh                   # GRPO reference launcher (forces vLLM V0)
 │   ├── run_duet.sh                   # DUET launcher (forces vLLM V0)
 │   ├── _model_config.sh              # per-model anchored overrides
 │   └── setup/

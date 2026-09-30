@@ -17,12 +17,17 @@
 #   ROLLOUT_TP     override vLLM tensor_model_parallel_size
 #   GPUS_PER_NODE  override count (default = #CUDA_VISIBLE_DEVICES)
 #
-# vLLM engine: V1 (default). Set VLLM_USE_V1=0 manually if needed for debugging.
+# vLLM engine: V0, forced below. The paper ran every method (GRPO included) on
+# vLLM 0.9.2 V0 because DUET needs per-request LogitsProcessors; keep GRPO on
+# the same engine so wall-clock speedups stay like-for-like.
 
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
+
+# Same engine as DUET (see header). Must be set BEFORE python imports vLLM.
+export VLLM_USE_V1=0
 
 # Match the original launch_sirl.sh env-var setup.
 export TOKENIZERS_PARALLELISM="${TOKENIZERS_PARALLELISM:-false}"
@@ -72,4 +77,5 @@ ARGS=(
 )
 
 echo "[run_grpo] model=$MODEL_ALIAS gpus=$GPUS_PER_NODE seed=$SEED tag=$TAG"
+echo "[run_grpo] VLLM_USE_V1=$VLLM_USE_V1 (same engine as DUET)"
 exec python src/run_duet_verl.py "${ARGS[@]}" --launch "$@"

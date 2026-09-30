@@ -668,7 +668,7 @@ def _build_duet_predictable(args: Any) -> PipelineArtifacts:
             *_resolve_rollout_backend_lines(),
             'cd "$PROJECT_ROOT"',
             "unset VLLM_ATTENTION_BACKEND",
-            'export VLLM_USE_V1="${VLLM_USE_V1:-1}"',  # respect pre-set (e.g., DUET cells set =0)
+            'export VLLM_USE_V1="${VLLM_USE_V1:-0}"',  # V0 unless pre-set: paper cells all ran V0
             f"export TENSORBOARD_DIR={_quote(tensorboard_dir)}",
             f"EXPERIMENT_LOG={_quote(train_log_path)}",
             f'mkdir -p {_quote(tensorboard_dir)} "$(dirname "$EXPERIMENT_LOG")"',
