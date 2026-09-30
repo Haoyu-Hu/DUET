@@ -66,6 +66,15 @@ echo "[install] Installing remaining requirements from PyPI"
 # extra index so vLLM's own torch pin resolves to the CUDA build installed above
 pip install --extra-index-url "https://download.pytorch.org/whl/$CUDA_INDEX" -r "$REQ_FILE"
 
+# vLLM 0.16 uses FlashInfer (attention on Blackwell, top-p/top-k sampling), which
+# JIT-compiles kernels with nvcc on first use. Compute nodes often have no CUDA
+# toolkit ("Could not find nvcc"), so install FlashInfer's prebuilt kernels,
+# matched to the flashinfer-python version vLLM pulled in.
+FI_VER="$(python -c 'import importlib.metadata as m; print(m.version("flashinfer-python"))')"
+echo "[install] Installing prebuilt FlashInfer kernels for flashinfer $FI_VER ($CUDA_INDEX)"
+pip install "flashinfer-cubin==$FI_VER" "flashinfer-jit-cache==$FI_VER" \
+    --extra-index-url "https://flashinfer.ai/whl/$CUDA_INDEX"
+
 if [[ "$SKIP_FLASH" != "1" ]]; then
     # flash-attn is used by the FSDP actor (vLLM bundles its own copy). Prefer
     # the upstream prebuilt wheel for torch 2.9 / CUDA 12 / cp312.
