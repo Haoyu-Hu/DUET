@@ -162,42 +162,13 @@ The defaults reproduce the paper. Override with environment variables to
 - **New dataset**: add a handler in `scripts/setup/download_datasets.py` and
   the alias mapping in `src/duet/data_utils.py`.
 
-## Repository layout
+## Citation
 
-```
-duet-code-repo/
-├── README.md
-├── figure/
-│   ├── duet_comic.svg                # four-panel comic of the idea (rendered at the top)
-│   ├── duet_method.svg               # animated method illustrator
-│   ├── schematics-ver6.png           # static method figure (paper version)
-│   ├── fig1_money_plot.png           # main-results figure
-│   └── duet_results.svg              # animated headline results
-├── scripts/
-│   ├── run_grpo.sh                   # GRPO reference launcher (vLLM V1)
-│   ├── run_duet.sh                   # DUET launcher (vLLM V1)
-│   ├── verify_v1.sh                  # minimal GRPO-vs-DUET check on V1
-│   ├── compare_runs.py               # side-by-side summary from TensorBoard
-│   ├── _model_config.sh              # per-model anchored overrides
-│   └── setup/
-│       ├── install.sh                # venv + torch + vllm + verl
-│       ├── activate.sh               # venv + LD_LIBRARY_PATH
-│       ├── requirements.txt
-│       ├── download_models.py        # qwen3-{1.7b,4b}-base, llama3.2-3b-instruct
-│       └── download_datasets.py      # math train + 5 eval suites
-└── src/
-    ├── run_duet_verl.py              # CLI entry → pipeline → verl
-    ├── duet/                         # DUET package
-    │   ├── duet_allocator.py
-    │   ├── duet_surrogate.py
-    │   ├── duet_logits_processor.py  # V0 per-request stop rule (reference)
-    │   ├── duet_v1_logits_processor.py  # V1 batch-level port (used here)
-    │   ├── duet_marker_detector.py
-    │   ├── duet_prompt_state.py
-    │   ├── data_utils.py
-    │   ├── model_store.py
-    │   └── pipeline.py               # generates the verl launcher .sh
-    └── verl_runtime/verl/            # vendored verl + DUET surgical patches
-tests/
-└── test_duet_v1_logits_processor.py # V0-vs-V1 stop-rule parity
+```bibtex
+@article{hu2026duet,
+  title={DUET: Optimize Token-Budget Allocation for Reinforcement Learning with Verifiable Rewards},
+  author={Hu, Haoyu and Zhao, Xuandong and Xu, Xuhai and Jacoby, Nori and others},
+  journal={arXiv preprint arXiv:2605.08441},
+  year={2026}
+}
 ```
