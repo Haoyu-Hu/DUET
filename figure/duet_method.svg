@@ -1,0 +1,280 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-labelledby="t d"><title id="t">DUET method: one training step</title><desc id="d">Animated schematic. (i) Allocate: each prompt gets an informativeness score and a cost; the cost-weighted Neyman rule n_q = s_q / sqrt(lambda* L_q) sets its rollout count under the token budget. (ii) Generate: rollouts that emit an answer marker after K1 are trimmed shortly after it; marker-less rollouts past K2+G are aborted and masked, except an epsilon fraction kept to EOS with weight 1/epsilon. (iii) Update: importance-corrected backward on kept rollouts; online statistics feed the next step. A single dual variable lambda* couples allocation and generation.</desc><defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fbe3e3"/><line x1="0" y1="0" x2="0" y2="6" stroke="#cf222e" stroke-width="2" opacity=".55"/></pattern></defs><style>@keyframes a1{0.000%{opacity:0} 1.000%{opacity:.9} 5.000%{opacity:0} 30.000%{opacity:0} 32.000%{opacity:.9} 36.000%{opacity:0} 100.000%{opacity:0}}
+.a1{animation:a1 15.0s linear infinite;}
+@keyframes a2{0.000%{opacity:0} 1.000%{opacity:0} 2.500%{opacity:.8} 6.000%{opacity:0} 100.000%{opacity:0}}
+.a2{animation:a2 15.0s linear infinite;}
+@keyframes a3{0.000%{opacity:0} 31.000%{opacity:0} 32.500%{opacity:.8} 36.000%{opacity:0} 100.000%{opacity:0}}
+.a3{animation:a3 15.0s linear infinite;}
+@keyframes a4{0.000%{opacity:0.0} 4.000%{opacity:0.0} 5.500%{opacity:1.0} 28.500%{opacity:1.0} 30.000%{opacity:0.0} 100.000%{opacity:0.0}}
+.a4{animation:a4 15.0s linear infinite;}
+@keyframes a5{0.000%{opacity:0.0} 31.000%{opacity:0.0} 32.500%{opacity:1.0} 62.500%{opacity:1.0} 64.000%{opacity:0.0} 100.000%{opacity:0.0}}
+.a5{animation:a5 15.0s linear infinite;}
+@keyframes a6{0.000%{opacity:0.0} 65.000%{opacity:0.0} 66.500%{opacity:1.0} 82.500%{opacity:1.0} 84.000%{opacity:0.0} 100.000%{opacity:0.0}}
+.a6{animation:a6 15.0s linear infinite;}
+@keyframes a7{0.000%{transform:scaleX(0);opacity:1} 5.000%{transform:scaleX(0);opacity:1} 9.000%{transform:scaleX(1);opacity:1} 92.000%{transform:scaleX(1);opacity:1} 94.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a7{animation:a7 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a8{0.000%{transform:scaleX(0);opacity:1} 6.000%{transform:scaleX(0);opacity:1} 10.000%{transform:scaleX(1);opacity:1} 92.000%{transform:scaleX(1);opacity:1} 94.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a8{animation:a8 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a9{0.000%{transform:scaleX(0);opacity:1} 6.500%{transform:scaleX(0);opacity:1} 10.500%{transform:scaleX(1);opacity:1} 92.000%{transform:scaleX(1);opacity:1} 94.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a9{animation:a9 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a10{0.000%{transform:scaleX(0);opacity:1} 7.500%{transform:scaleX(0);opacity:1} 11.500%{transform:scaleX(1);opacity:1} 92.000%{transform:scaleX(1);opacity:1} 94.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a10{animation:a10 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a11{0.000%{transform:scaleX(0);opacity:1} 8.000%{transform:scaleX(0);opacity:1} 12.000%{transform:scaleX(1);opacity:1} 92.000%{transform:scaleX(1);opacity:1} 94.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a11{animation:a11 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a12{0.000%{transform:scaleX(0);opacity:1} 9.000%{transform:scaleX(0);opacity:1} 13.000%{transform:scaleX(1);opacity:1} 92.000%{transform:scaleX(1);opacity:1} 94.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a12{animation:a12 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a13{0.000%{transform:scaleX(0);opacity:1} 9.500%{transform:scaleX(0);opacity:1} 13.500%{transform:scaleX(1);opacity:1} 92.000%{transform:scaleX(1);opacity:1} 94.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a13{animation:a13 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a14{0.000%{transform:scaleX(0);opacity:1} 10.500%{transform:scaleX(0);opacity:1} 14.500%{transform:scaleX(1);opacity:1} 92.000%{transform:scaleX(1);opacity:1} 94.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a14{animation:a14 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a15{0.000%{opacity:0.0} 11.000%{opacity:0.0} 12.500%{opacity:1.0} 14.500%{opacity:1.0} 16.000%{opacity:0.0} 100.000%{opacity:0.0}}
+.a15{animation:a15 15.0s linear infinite;}
+@keyframes a16{0.000%{opacity:0;transform:scale(.6)} 16.000%{opacity:0;transform:scale(.6)} 17.000%{opacity:1;transform:scale(1.08)} 17.800%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a16{animation:a16 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a17{0.000%{opacity:0;transform:scale(.6)} 16.700%{opacity:0;transform:scale(.6)} 17.700%{opacity:1;transform:scale(1.08)} 18.500%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a17{animation:a17 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a18{0.000%{opacity:0;transform:scale(.6)} 17.400%{opacity:0;transform:scale(.6)} 18.400%{opacity:1;transform:scale(1.08)} 19.200%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a18{animation:a18 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a19{0.000%{opacity:0;transform:scale(.6)} 18.100%{opacity:0;transform:scale(.6)} 19.100%{opacity:1;transform:scale(1.08)} 19.900%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a19{animation:a19 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a20{0.000%{opacity:0;transform:scale(.6)} 18.800%{opacity:0;transform:scale(.6)} 19.800%{opacity:1;transform:scale(1.08)} 20.600%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a20{animation:a20 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a21{0.000%{opacity:0;transform:scale(.6)} 19.500%{opacity:0;transform:scale(.6)} 20.500%{opacity:1;transform:scale(1.08)} 21.300%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a21{animation:a21 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a22{0.000%{opacity:0} 20.200%{opacity:0} 21.400%{opacity:1} 92.000%{opacity:1} 94.000%{opacity:0} 100.000%{opacity:0}}
+.a22{animation:a22 15.0s linear infinite;}
+@keyframes a23{0.000%{opacity:0;transform:scale(.6)} 18.500%{opacity:0;transform:scale(.6)} 19.500%{opacity:1;transform:scale(1.08)} 20.300%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a23{animation:a23 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a24{0.000%{opacity:0;transform:scale(.6)} 19.200%{opacity:0;transform:scale(.6)} 20.200%{opacity:1;transform:scale(1.08)} 21.000%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a24{animation:a24 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a25{0.000%{opacity:0;transform:scale(.6)} 19.900%{opacity:0;transform:scale(.6)} 20.900%{opacity:1;transform:scale(1.08)} 21.700%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a25{animation:a25 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a26{0.000%{opacity:0} 20.600%{opacity:0} 21.800%{opacity:1} 92.000%{opacity:1} 94.000%{opacity:0} 100.000%{opacity:0}}
+.a26{animation:a26 15.0s linear infinite;}
+@keyframes a27{0.000%{opacity:0;transform:scale(.6)} 21.000%{opacity:0;transform:scale(.6)} 22.000%{opacity:1;transform:scale(1.08)} 22.800%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a27{animation:a27 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a28{0.000%{opacity:0;transform:scale(.6)} 21.700%{opacity:0;transform:scale(.6)} 22.700%{opacity:1;transform:scale(1.08)} 23.500%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a28{animation:a28 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a29{0.000%{opacity:0} 22.400%{opacity:0} 23.600%{opacity:1} 92.000%{opacity:1} 94.000%{opacity:0} 100.000%{opacity:0}}
+.a29{animation:a29 15.0s linear infinite;}
+@keyframes a30{0.000%{opacity:0;transform:scale(.6)} 23.500%{opacity:0;transform:scale(.6)} 24.500%{opacity:1;transform:scale(1.08)} 25.300%{opacity:1;transform:scale(1)} 92.000%{opacity:1;transform:scale(1)} 94.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a30{animation:a30 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a31{0.000%{opacity:0} 24.200%{opacity:0} 25.400%{opacity:1} 92.000%{opacity:1} 94.000%{opacity:0} 100.000%{opacity:0}}
+.a31{animation:a31 15.0s linear infinite;}
+@keyframes a32{0.000%{transform:scaleX(0);opacity:1} 16.000%{transform:scaleX(0);opacity:1} 27.500%{transform:scaleX(1);opacity:1} 92.000%{transform:scaleX(1);opacity:1} 94.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a32{animation:a32 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a33{0.000%{transform:scaleX(0);opacity:1} 32.000%{transform:scaleX(0);opacity:1} 44.180%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a33{animation:a33 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a34{0.000%{transform:scaleX(0);opacity:1} 44.180%{transform:scaleX(0);opacity:1} 45.630%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a34{animation:a34 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a35{0.000%{opacity:0;transform:scale(.6)} 44.180%{opacity:0;transform:scale(.6)} 45.180%{opacity:1;transform:scale(1.08)} 45.980%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a35{animation:a35 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a36{0.000%{opacity:0;transform:scale(.6)} 46.030%{opacity:0;transform:scale(.6)} 47.030%{opacity:1;transform:scale(1.08)} 47.830%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a36{animation:a36 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a37{0.000%{transform:scaleX(0);opacity:1} 32.000%{transform:scaleX(0);opacity:1} 48.820%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a37{animation:a37 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a38{0.000%{transform:scaleX(0);opacity:1} 48.820%{transform:scaleX(0);opacity:1} 50.270%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a38{animation:a38 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a39{0.000%{opacity:0;transform:scale(.6)} 48.820%{opacity:0;transform:scale(.6)} 49.820%{opacity:1;transform:scale(1.08)} 50.620%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a39{animation:a39 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a40{0.000%{opacity:0;transform:scale(.6)} 50.670%{opacity:0;transform:scale(.6)} 51.670%{opacity:1;transform:scale(1.08)} 52.470%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a40{animation:a40 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a41{0.000%{transform:scaleX(0);opacity:1} 32.000%{transform:scaleX(0);opacity:1} 54.620%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a41{animation:a41 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a42{0.000%{opacity:0} 54.920%{opacity:0} 56.120%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a42{animation:a42 15.0s linear infinite;}
+@keyframes a43{0.000%{opacity:0;transform:scale(.6)} 55.120%{opacity:0;transform:scale(.6)} 56.120%{opacity:1;transform:scale(1.08)} 56.920%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a43{animation:a43 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a44{0.000%{opacity:0;transform:scale(.6)} 54.420%{opacity:0;transform:scale(.6)} 55.420%{opacity:1;transform:scale(1.08)} 56.220%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a44{animation:a44 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a45{0.000%{transform:scaleX(0);opacity:1} 32.000%{transform:scaleX(0);opacity:1} 54.620%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a45{animation:a45 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a46{0.000%{transform:scaleX(0);opacity:1} 55.820%{transform:scaleX(0);opacity:1} 61.330%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a46{animation:a46 15.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a47{0.000%{opacity:0;transform:scale(.6)} 55.120%{opacity:0;transform:scale(.6)} 56.120%{opacity:1;transform:scale(1.08)} 56.920%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a47{animation:a47 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a48{0.000%{opacity:0;transform:translateX(-26px)} 65.000%{opacity:0;transform:translateX(-26px)} 67.200%{opacity:1;transform:translateX(0)} 94.000%{opacity:1;transform:translateX(0)} 96.000%{opacity:0;transform:translateX(0)} 100.000%{opacity:0;transform:translateX(0)}}
+.a48{animation:a48 15.0s linear infinite;}
+@keyframes a49{0.000%{opacity:0;transform:translateX(-26px)} 66.600%{opacity:0;transform:translateX(-26px)} 68.800%{opacity:1;transform:translateX(0)} 94.000%{opacity:1;transform:translateX(0)} 96.000%{opacity:0;transform:translateX(0)} 100.000%{opacity:0;transform:translateX(0)}}
+.a49{animation:a49 15.0s linear infinite;}
+@keyframes a50{0.000%{opacity:0;transform:translateX(-26px)} 68.200%{opacity:0;transform:translateX(-26px)} 70.400%{opacity:1;transform:translateX(0)} 94.000%{opacity:1;transform:translateX(0)} 96.000%{opacity:0;transform:translateX(0)} 100.000%{opacity:0;transform:translateX(0)}}
+.a50{animation:a50 15.0s linear infinite;}
+@keyframes a51{0.000%{opacity:0;transform:translateX(-26px)} 69.800%{opacity:0;transform:translateX(-26px)} 72.000%{opacity:1;transform:translateX(0)} 94.000%{opacity:1;transform:translateX(0)} 96.000%{opacity:0;transform:translateX(0)} 100.000%{opacity:0;transform:translateX(0)}}
+.a51{animation:a51 15.0s linear infinite;}
+@keyframes a52{0.000%{opacity:0.0} 73.000%{opacity:0.0} 74.500%{opacity:1.0} 78.500%{opacity:1.0} 80.000%{opacity:0.0} 100.000%{opacity:0.0}}
+.a52{animation:a52 15.0s linear infinite;}
+@keyframes a53{0.000%{opacity:0;transform:scale(.6)} 77.000%{opacity:0;transform:scale(.6)} 78.000%{opacity:1;transform:scale(1.08)} 78.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a53{animation:a53 15.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a54{0.000%{stroke-dashoffset:903.0;opacity:0} 84.000%{stroke-dashoffset:903.0;opacity:1} 94.000%{stroke-dashoffset:0;opacity:1} 96.000%{stroke-dashoffset:0;opacity:1} 98.000%{stroke-dashoffset:0;opacity:0} 100.000%{stroke-dashoffset:0;opacity:0}}
+.a54{animation:a54 15.0s linear infinite;stroke-dasharray:903.0;}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}</style><rect x="0" y="0" width="1200" height="600" rx="14" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+<rect x="312" y="8" width="262" height="52" rx="24" fill="#7fcf8f" stroke="none" stroke-width="1" class="a1"/>
+<rect x="318" y="14" width="250" height="40" rx="20" fill="#e6f6ea" stroke="#1a7f37" stroke-width="1.5"/>
+<text x="443.0" y="40" font-size="14" fill="#1a7f37" text-anchor="middle" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">budget-pressure signal <tspan font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="17">λ*</tspan></text>
+<text x="443.0" y="71" font-size="11.5" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">scarce tokens → λ* ↑ → fewer rollouts · plentiful → λ* ↓</text>
+<path d="M318 34 H220 V92" stroke="#1a7f37" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M318 34 H220 V92" stroke="#7fcf8f" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="a2"/>
+<path d="M568 34 H673 V92" stroke="#1a7f37" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M568 34 H673 V92" stroke="#7fcf8f" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="a3"/>
+<path d="M214 86 L220 95 L226 86" stroke="#1a7f37" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M667 86 L673 95 L679 86" stroke="#1a7f37" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="18" y="104" width="404" height="420" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+<rect x="16" y="102" width="408" height="424" rx="13" fill="none" stroke="#2a78d6" stroke-width="2.5" class="a4"/>
+<rect x="438" y="104" width="470" height="420" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+<rect x="436" y="102" width="474" height="424" rx="13" fill="none" stroke="#2a78d6" stroke-width="2.5" class="a5"/>
+<rect x="924" y="104" width="258" height="420" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+<rect x="922" y="102" width="262" height="424" rx="13" fill="none" stroke="#2a78d6" stroke-width="2.5" class="a6"/>
+<text x="220" y="134" font-size="19" fill="#1f2328" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">(i) Allocate</text>
+<text x="673" y="134" font-size="19" fill="#1f2328" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">(ii) Generate</text>
+<text x="1053" y="134" font-size="19" fill="#1f2328" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">(iii) Update</text>
+<text x="38" y="160" font-size="11.5" fill="#57606a" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">informativeness ŝ (gradient std)  ·  cost L̂ (length)</text>
+<rect x="30" y="174" width="190" height="58" rx="9" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+<text x="42" y="193" font-size="13.5" fill="#1f2328" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Prompt 1</text>
+<text x="42" y="210" font-size="12" fill="#1a7f37" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">ŝ</text>
+<rect x="56" y="202" width="150" height="9" rx="4.5" fill="#e8ebef" stroke="none" stroke-width="1"/>
+<rect x="56" y="202" width="138.0" height="9" rx="4.5" fill="#7fcf8f" stroke="none" stroke-width="1" class="a7"/>
+<text x="42" y="225" font-size="12" fill="#57606a" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">L̂</text>
+<rect x="56" y="218" width="150" height="7" rx="3.5" fill="#e8ebef" stroke="none" stroke-width="1"/>
+<rect x="56" y="218" width="45.0" height="7" rx="3.5" fill="#b4bcc6" stroke="none" stroke-width="1" class="a8"/>
+<path d="M221 203 H236" stroke="#57606a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="30" y="244" width="190" height="58" rx="9" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+<text x="42" y="263" font-size="13.5" fill="#1f2328" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Prompt 2</text>
+<text x="42" y="280" font-size="12" fill="#1a7f37" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">ŝ</text>
+<rect x="56" y="272" width="150" height="9" rx="4.5" fill="#e8ebef" stroke="none" stroke-width="1"/>
+<rect x="56" y="272" width="93.0" height="9" rx="4.5" fill="#7fcf8f" stroke="none" stroke-width="1" class="a9"/>
+<text x="42" y="295" font-size="12" fill="#57606a" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">L̂</text>
+<rect x="56" y="288" width="150" height="7" rx="3.5" fill="#e8ebef" stroke="none" stroke-width="1"/>
+<rect x="56" y="288" width="67.5" height="7" rx="3.5" fill="#b4bcc6" stroke="none" stroke-width="1" class="a10"/>
+<path d="M221 273 H236" stroke="#57606a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="30" y="314" width="190" height="58" rx="9" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+<text x="42" y="333" font-size="13.5" fill="#1f2328" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Prompt 3</text>
+<text x="42" y="350" font-size="12" fill="#1a7f37" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">ŝ</text>
+<rect x="56" y="342" width="150" height="9" rx="4.5" fill="#e8ebef" stroke="none" stroke-width="1"/>
+<rect x="56" y="342" width="60.0" height="9" rx="4.5" fill="#7fcf8f" stroke="none" stroke-width="1" class="a11"/>
+<text x="42" y="365" font-size="12" fill="#57606a" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">L̂</text>
+<rect x="56" y="358" width="150" height="7" rx="3.5" fill="#e8ebef" stroke="none" stroke-width="1"/>
+<rect x="56" y="358" width="112.5" height="7" rx="3.5" fill="#b4bcc6" stroke="none" stroke-width="1" class="a12"/>
+<path d="M221 343 H236" stroke="#57606a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="30" y="384" width="190" height="58" rx="9" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+<text x="42" y="403" font-size="13.5" fill="#1f2328" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Prompt 4</text>
+<text x="42" y="420" font-size="12" fill="#1a7f37" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">ŝ</text>
+<rect x="56" y="412" width="150" height="9" rx="4.5" fill="#e8ebef" stroke="none" stroke-width="1"/>
+<rect x="56" y="412" width="21.000000000000004" height="9" rx="4.5" fill="#7fcf8f" stroke="none" stroke-width="1" class="a13"/>
+<text x="42" y="435" font-size="12" fill="#57606a" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">L̂</text>
+<rect x="56" y="428" width="150" height="7" rx="3.5" fill="#e8ebef" stroke="none" stroke-width="1"/>
+<rect x="56" y="428" width="60.0" height="7" rx="3.5" fill="#b4bcc6" stroke="none" stroke-width="1" class="a14"/>
+<path d="M221 413 H236" stroke="#57606a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="236" y="170" width="22" height="274" rx="8" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.2"/>
+<text transform="translate(251 307.0) rotate(-90)" font-size="12.5" fill="#2a78d6" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Neyman allocator</text>
+<rect x="233" y="167" width="28" height="280" rx="10" fill="none" stroke="#2a78d6" stroke-width="3" class="a15"/>
+<rect x="268" y="195" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a16"/>
+<rect x="288" y="195" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a17"/>
+<rect x="308" y="195" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a18"/>
+<rect x="328" y="195" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a19"/>
+<rect x="348" y="195" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a20"/>
+<rect x="368" y="195" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a21"/>
+<text x="390" y="208" font-size="12" fill="#2a78d6" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" class="a22">n = 6</text>
+<rect x="268" y="265" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a23"/>
+<rect x="288" y="265" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a24"/>
+<rect x="308" y="265" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a25"/>
+<text x="330" y="278" font-size="12" fill="#2a78d6" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" class="a26">n = 3</text>
+<rect x="268" y="335" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a27"/>
+<rect x="288" y="335" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a28"/>
+<text x="310" y="348" font-size="12" fill="#2a78d6" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" class="a29">n = 2</text>
+<rect x="268" y="405" width="15" height="15" rx="4" fill="#ffffff" stroke="#2a78d6" stroke-width="1.6" class="a30"/>
+<text x="290" y="418" font-size="12" fill="#2a78d6" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" class="a31">n = 1</text>
+<text x="220" y="472" font-size="17" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="Georgia,'Times New Roman',serif">n<tspan baseline-shift="sub" font-size="75%">q</tspan> = ŝ<tspan baseline-shift="sub" font-size="75%">q</tspan> / √(λ* · L̂<tspan baseline-shift="sub" font-size="75%">q</tspan>)</text>
+<text x="38" y="500" font-size="11.5" fill="#57606a" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">token budget</text>
+<rect x="118" y="491" width="250" height="10" rx="5" fill="#e8ebef" stroke="none" stroke-width="1"/>
+<rect x="118" y="491" width="250" height="10" rx="5" fill="#2a78d6" stroke="none" stroke-width="1" class="a32"/>
+<path d="M368 486 V506" stroke="#1f2328" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="376" y="501" font-size="13" fill="#1f2328" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">B</text>
+<text x="118" y="520" font-size="11" fill="#8c959f" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Σ n<tspan baseline-shift="sub" font-size="75%">q</tspan> L̂<tspan baseline-shift="sub" font-size="75%">q</tspan> = B, solved by bisection on λ*</text>
+<text x="546.6" y="168" font-size="12" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">free generation</text>
+<text x="704.1600000000001" y="168" font-size="12" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">answer check</text>
+<text x="845.56" y="168" font-size="12" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">abort gate</text>
+<path d="M607.2 216 V462" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4"/>
+<text x="607.2" y="196" font-size="14" fill="#2a78d6" text-anchor="middle" font-weight="normal" font-family="Georgia,'Times New Roman',serif">K<tspan baseline-shift="sub" font-size="75%">1</tspan></text>
+<path d="M752.64 216 V462" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4"/>
+<text x="752.64" y="196" font-size="14" fill="#2a78d6" text-anchor="middle" font-weight="normal" font-family="Georgia,'Times New Roman',serif">K<tspan baseline-shift="sub" font-size="75%">2</tspan></text>
+<path d="M801.12 216 V462" stroke="#cf222e" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4"/>
+<text x="801.12" y="196" font-size="14" fill="#cf222e" text-anchor="middle" font-weight="normal" font-family="Georgia,'Times New Roman',serif">K<tspan baseline-shift="sub" font-size="75%">2</tspan>+G</text>
+<text x="607.2" y="210" font-size="10.5" fill="#8c959f" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">p30</text>
+<text x="752.64" y="210" font-size="10.5" fill="#8c959f" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">p80</text>
+<path d="M486 462 H890" stroke="#8c959f" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="486" y="476" font-size="11" fill="#8c959f" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">0</text>
+<text x="890" y="476" font-size="11" fill="#8c959f" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">tokens →</text>
+<text x="474" y="263" font-size="14" fill="#57606a" text-anchor="end" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">y₁</text>
+<rect x="486" y="248" width="404" height="20" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="486" y="248" width="169.68000000000006" height="20" rx="5" fill="#8fb8ec" stroke="none" stroke-width="1" class="a33"/>
+<rect x="655.6800000000001" y="248" width="20.199999999999932" height="20" rx="5" fill="#2a78d6" stroke="none" stroke-width="1" class="a34"/>
+<g class="a35">
+<rect x="654.6800000000001" y="221" width="118" height="21" rx="10" fill="#e6f6ea" stroke="#1a7f37" stroke-width="1.2"/>
+<text x="664.6800000000001" y="236" font-size="11.5" fill="#1a7f37" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓ \boxed{…} found</text>
+</g>
+<g class="a36">
+<text x="683.88" y="263" font-size="12" fill="#1f2328" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✂ trimmed · kept</text>
+</g>
+<text x="474" y="321" font-size="14" fill="#57606a" text-anchor="end" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">y₂</text>
+<rect x="486" y="306" width="404" height="20" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="486" y="306" width="234.31999999999994" height="20" rx="5" fill="#8fb8ec" stroke="none" stroke-width="1" class="a37"/>
+<rect x="720.3199999999999" y="306" width="20.200000000000045" height="20" rx="5" fill="#2a78d6" stroke="none" stroke-width="1" class="a38"/>
+<g class="a39">
+<rect x="719.3199999999999" y="279" width="118" height="21" rx="10" fill="#e6f6ea" stroke="#1a7f37" stroke-width="1.2"/>
+<text x="729.3199999999999" y="294" font-size="11.5" fill="#1a7f37" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓ \boxed{…} found</text>
+</g>
+<g class="a40">
+<text x="748.52" y="321" font-size="12" fill="#1f2328" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✂ trimmed · kept</text>
+</g>
+<text x="474" y="379" font-size="14" fill="#57606a" text-anchor="end" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">y₃</text>
+<rect x="486" y="364" width="404" height="20" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="486" y="364" width="315.12" height="20" rx="5" fill="#8fb8ec" stroke="none" stroke-width="1" class="a41"/>
+<rect x="486" y="364" width="315.12" height="20" rx="5" fill="url(#hatch)" stroke="#cf222e" stroke-width="1.2" class="a42"/>
+<g class="a43">
+<text x="809.12" y="379" font-size="12" fill="#cf222e" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✗ masked</text>
+</g>
+<g class="a44">
+<rect x="651.12" y="337" width="146" height="21" rx="10" fill="#fdeaea" stroke="#cf222e" stroke-width="1.2"/>
+<text x="661.12" y="352" font-size="11.5" fill="#cf222e" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">no answer by K₂+G</text>
+</g>
+<text x="474" y="437" font-size="14" fill="#57606a" text-anchor="end" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">y₄</text>
+<rect x="486" y="422" width="404" height="20" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="486" y="422" width="315.12" height="20" rx="5" fill="#8fb8ec" stroke="none" stroke-width="1" class="a45"/>
+<rect x="801.12" y="422" width="76.75999999999999" height="20" rx="5" fill="#f3d9a4" stroke="#b7791f" stroke-width="1.2" class="a46" stroke-dasharray="4 3"/>
+<g class="a47">
+<rect x="631.12" y="395" width="166" height="21" rx="10" fill="#fbf1dc" stroke="#b7791f" stroke-width="1.2"/>
+<text x="641.12" y="410" font-size="11.5" fill="#b7791f" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">ε-keep: run on to EOS</text>
+</g>
+<text x="456" y="495" font-size="11" fill="#8c959f" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Marker polled every 8 tokens from K₁ · K₁, K₂ = online p30 / p80 of recent kept lengths</text>
+<text x="456" y="511" font-size="11" fill="#8c959f" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">marker-less rollouts: abort w.p. 1−ε, else keep with weight 1/ε (unbiased)</text>
+<rect x="940" y="156" width="226" height="196" rx="10" fill="#ffffff" stroke="#2a78d6" stroke-width="1.2"/>
+<text x="1053.0" y="178" font-size="12.5" fill="#2a78d6" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">importance weights</text>
+<g class="a48">
+<text x="960" y="206" font-size="14" fill="#57606a" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">y₁</text>
+<text x="992" y="206" font-size="13.5" fill="#1f2328" text-anchor="start" font-weight="600" font-family="Georgia,'Times New Roman',serif" font-style="italic">w = 1</text>
+</g>
+<g class="a49">
+<text x="960" y="240" font-size="14" fill="#57606a" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">y₂</text>
+<text x="992" y="240" font-size="13.5" fill="#1f2328" text-anchor="start" font-weight="600" font-family="Georgia,'Times New Roman',serif" font-style="italic">w = 1</text>
+</g>
+<g class="a50">
+<text x="960" y="274" font-size="14" fill="#57606a" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">y₃</text>
+<text x="992" y="274" font-size="13.5" fill="#cf222e" text-anchor="start" font-weight="600" font-family="Georgia,'Times New Roman',serif" font-style="italic">w = 0 (masked)</text>
+</g>
+<g class="a51">
+<text x="960" y="308" font-size="14" fill="#57606a" text-anchor="start" font-weight="normal" font-family="Georgia,'Times New Roman',serif" font-style="italic">y₄</text>
+<text x="992" y="308" font-size="13.5" fill="#b7791f" text-anchor="start" font-weight="600" font-family="Georgia,'Times New Roman',serif" font-style="italic">w = 1/ε</text>
+</g>
+<text x="1053.0" y="340" font-size="11.5" fill="#8c959f" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">w = 1 / p(kept)</text>
+<rect x="940" y="368" width="226" height="70" rx="10" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.2"/>
+<rect x="937" y="365" width="232" height="76" rx="12" fill="none" stroke="#2a78d6" stroke-width="3" class="a52"/>
+<text x="1053.0" y="392" font-size="12.5" fill="#2a78d6" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Importance-corrected backward</text>
+<text x="1053.0" y="418" font-size="15" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="Georgia,'Times New Roman',serif">∇<tspan baseline-shift="sub" font-size="75%">θ</tspan> Σ w · A · log π</text>
+<g class="a53">
+<rect x="978" y="452" width="150" height="26" rx="13" fill="#2a78d6" stroke="none" stroke-width="1"/>
+<text x="1053.0" y="470" font-size="15" fill="#ffffff" text-anchor="middle" font-weight="normal" font-family="Georgia,'Times New Roman',serif">θ ← θ − η∇ℒ</text>
+</g>
+<path d="M1053.0 524 V562 H220 V530" stroke="#d0d7de" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1053.0 524 V562 H220 V530" stroke="#2a78d6" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="a54"/>
+<path d="M214 538 L220 529 L226 538" stroke="#57606a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="365" y="547" width="470" height="30" rx="15" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+<text x="600" y="567" font-size="12" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">online state for the next step:  ŝ<tspan baseline-shift="sub" font-size="75%">q</tspan> ← running std(A · log π),  L̂<tspan baseline-shift="sub" font-size="75%">q</tspan>,  K₁ / K₂</text></svg>

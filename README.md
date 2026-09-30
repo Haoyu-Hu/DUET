@@ -1,7 +1,9 @@
 # DUET: Optimize Budget-Token Allocation for Reinforcement Learning with Verifiable Rewards
 [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2605.08441) [![Github](https://img.shields.io/badge/DUET-000000?style=for-the-badge&logo=github&logoColor=000&logoColor=white)](https://github.com/Haoyu-Hu/DUET)
 
-![DUET schematic](figure/schematics-ver6.png)
+🎉 **DUET has been accepted to NeurIPS 2026!**
+
+![DUET method: allocate, generate, update under one budget-pressure signal λ* (animated)](figure/duet_method.svg)
 
 Official Repository of **DUET** (**DU**al-controlled tok**E**n alloca**T**ion), a joint allocator that splits a fixed
 training-time token budget across prompts (rollout count) *and* within each
@@ -10,6 +12,8 @@ rollout (per-prompt max-token cap) under a single Lagrange multiplier.
 ## Main Results
 
 ![DUET budget–accuracy frontier](figure/fig1_money_plot.png)
+
+![DUET headline results: 2.51× faster at half budget, and the lead widens as the budget tightens (animated)](figure/duet_results.svg)
 
 **DUET trains better models faster.** On Qwen3-1.7B-Base trained on MATH:
 
@@ -157,8 +161,10 @@ The defaults reproduce the paper. Override with environment variables to
 duet-code-repo/
 ├── README.md
 ├── figure/
-│   ├── schematics-ver6.png           # method figure (rendered at the top)
-│   └── fig1_money_plot.png           # main-results figure
+│   ├── duet_method.svg               # animated method illustrator (rendered at the top)
+│   ├── schematics-ver6.png           # static method figure (paper version)
+│   ├── fig1_money_plot.png           # main-results figure
+│   └── duet_results.svg              # animated headline results
 ├── scripts/
 │   ├── run_grpo.sh                   # GRPO reference launcher
 │   ├── run_duet.sh                   # DUET launcher (forces vLLM V0)

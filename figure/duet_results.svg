@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" role="img" aria-labelledby="t d"><title id="t">DUET headline results</title><desc id="d">Animated results on Qwen3-1.7B-Base trained on MATH. (a) Time to finish 232 training steps relative to full-budget GRPO, with MATH-500 mean@4: DUET at 50% budget 0.40x (62.1), DUET 0.62x (61.6), ARRoL 0.77x (58.4), GRPO 1.00x (56.8), VIP 1.05x (58.6), DAPO 1.23x (57.6). (b) DUET lead over the strongest baseline grows as the budget tightens: +3.0 at 100% (61.6 vs VIP 58.6), +3.6 at 50% (62.1 vs ARRoL 58.5), +4.3 at 25% (61.4 vs ARRoL 57.1), while DUET runs 1.62x, 2.51x and 3.4x faster than full-budget GRPO.</desc><style>@keyframes a1{0.000%{transform:scaleX(0);opacity:1} 5.000%{transform:scaleX(0);opacity:1} 20.936%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a1{animation:a1 14.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a2{0.000%{opacity:0;transform:scale(.6)} 21.236%{opacity:0;transform:scale(.6)} 22.236%{opacity:1;transform:scale(1.08)} 23.036%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a2{animation:a2 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a3{0.000%{opacity:0} 21.236%{opacity:0} 22.436%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a3{animation:a3 14.0s linear infinite;}
+@keyframes a4{0.000%{transform:scaleX(0);opacity:1} 5.000%{transform:scaleX(0);opacity:1} 29.691%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a4{animation:a4 14.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a5{0.000%{opacity:0;transform:scale(.6)} 29.991%{opacity:0;transform:scale(.6)} 30.991%{opacity:1;transform:scale(1.08)} 31.791%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a5{animation:a5 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a6{0.000%{opacity:0} 29.991%{opacity:0} 31.191%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a6{animation:a6 14.0s linear infinite;}
+@keyframes a7{0.000%{transform:scaleX(0);opacity:1} 5.000%{transform:scaleX(0);opacity:1} 35.769%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a7{animation:a7 14.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a8{0.000%{opacity:0;transform:scale(.6)} 36.069%{opacity:0;transform:scale(.6)} 37.069%{opacity:1;transform:scale(1.08)} 37.869%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a8{animation:a8 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a9{0.000%{opacity:0} 36.069%{opacity:0} 37.269%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a9{animation:a9 14.0s linear infinite;}
+@keyframes a10{0.000%{transform:scaleX(0);opacity:1} 5.000%{transform:scaleX(0);opacity:1} 45.000%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a10{animation:a10 14.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a11{0.000%{opacity:0;transform:scale(.6)} 45.300%{opacity:0;transform:scale(.6)} 46.300%{opacity:1;transform:scale(1.08)} 47.100%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a11{animation:a11 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a12{0.000%{opacity:0} 45.300%{opacity:0} 46.500%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a12{animation:a12 14.0s linear infinite;}
+@keyframes a13{0.000%{transform:scaleX(0);opacity:1} 5.000%{transform:scaleX(0);opacity:1} 47.105%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a13{animation:a13 14.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a14{0.000%{opacity:0;transform:scale(.6)} 47.405%{opacity:0;transform:scale(.6)} 48.405%{opacity:1;transform:scale(1.08)} 49.205%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a14{animation:a14 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a15{0.000%{opacity:0} 47.405%{opacity:0} 48.605%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a15{animation:a15 14.0s linear infinite;}
+@keyframes a16{0.000%{transform:scaleX(0);opacity:1} 5.000%{transform:scaleX(0);opacity:1} 54.383%{transform:scaleX(1);opacity:1} 96.000%{transform:scaleX(1);opacity:1} 98.000%{transform:scaleX(1);opacity:0} 100.000%{transform:scaleX(1);opacity:0}}
+.a16{animation:a16 14.0s linear infinite;transform-box:fill-box;transform-origin:0% 50%;}
+@keyframes a17{0.000%{opacity:0;transform:scale(.6)} 54.683%{opacity:0;transform:scale(.6)} 55.683%{opacity:1;transform:scale(1.08)} 56.483%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a17{animation:a17 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a18{0.000%{opacity:0} 54.683%{opacity:0} 55.883%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a18{animation:a18 14.0s linear infinite;}
+@keyframes a19{0.000%{opacity:0} 44.000%{opacity:0} 45.200%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a19{animation:a19 14.0s linear infinite;}
+@keyframes a20{0.000%{transform:scaleY(0);opacity:1} 46.000%{transform:scaleY(0);opacity:1} 49.000%{transform:scaleY(1);opacity:1} 96.000%{transform:scaleY(1);opacity:1} 98.000%{transform:scaleY(1);opacity:0} 100.000%{transform:scaleY(1);opacity:0}}
+.a20{animation:a20 14.0s linear infinite;transform-box:fill-box;transform-origin:50% 100%;}
+@keyframes a21{0.000%{opacity:0} 45.500%{opacity:0} 46.700%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a21{animation:a21 14.0s linear infinite;}
+@keyframes a22{0.000%{opacity:0;transform:scale(.6)} 49.000%{opacity:0;transform:scale(.6)} 50.000%{opacity:1;transform:scale(1.08)} 50.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a22{animation:a22 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a23{0.000%{opacity:0;transform:scale(.6)} 50.000%{opacity:0;transform:scale(.6)} 51.000%{opacity:1;transform:scale(1.08)} 51.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a23{animation:a23 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a24{0.000%{opacity:0;transform:scale(.6)} 51.000%{opacity:0;transform:scale(.6)} 52.000%{opacity:1;transform:scale(1.08)} 52.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a24{animation:a24 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a25{0.000%{opacity:0} 54.000%{opacity:0} 55.200%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a25{animation:a25 14.0s linear infinite;}
+@keyframes a26{0.000%{transform:scaleY(0);opacity:1} 56.000%{transform:scaleY(0);opacity:1} 59.000%{transform:scaleY(1);opacity:1} 96.000%{transform:scaleY(1);opacity:1} 98.000%{transform:scaleY(1);opacity:0} 100.000%{transform:scaleY(1);opacity:0}}
+.a26{animation:a26 14.0s linear infinite;transform-box:fill-box;transform-origin:50% 100%;}
+@keyframes a27{0.000%{opacity:0} 55.500%{opacity:0} 56.700%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a27{animation:a27 14.0s linear infinite;}
+@keyframes a28{0.000%{opacity:0;transform:scale(.6)} 59.000%{opacity:0;transform:scale(.6)} 60.000%{opacity:1;transform:scale(1.08)} 60.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a28{animation:a28 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a29{0.000%{opacity:0;transform:scale(.6)} 60.000%{opacity:0;transform:scale(.6)} 61.000%{opacity:1;transform:scale(1.08)} 61.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a29{animation:a29 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a30{0.000%{opacity:0;transform:scale(.6)} 61.000%{opacity:0;transform:scale(.6)} 62.000%{opacity:1;transform:scale(1.08)} 62.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a30{animation:a30 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a31{0.000%{opacity:0} 64.000%{opacity:0} 65.200%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a31{animation:a31 14.0s linear infinite;}
+@keyframes a32{0.000%{transform:scaleY(0);opacity:1} 66.000%{transform:scaleY(0);opacity:1} 69.000%{transform:scaleY(1);opacity:1} 96.000%{transform:scaleY(1);opacity:1} 98.000%{transform:scaleY(1);opacity:0} 100.000%{transform:scaleY(1);opacity:0}}
+.a32{animation:a32 14.0s linear infinite;transform-box:fill-box;transform-origin:50% 100%;}
+@keyframes a33{0.000%{opacity:0} 65.500%{opacity:0} 66.700%{opacity:1} 96.000%{opacity:1} 98.000%{opacity:0} 100.000%{opacity:0}}
+.a33{animation:a33 14.0s linear infinite;}
+@keyframes a34{0.000%{opacity:0;transform:scale(.6)} 69.000%{opacity:0;transform:scale(.6)} 70.000%{opacity:1;transform:scale(1.08)} 70.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a34{animation:a34 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a35{0.000%{opacity:0;transform:scale(.6)} 70.000%{opacity:0;transform:scale(.6)} 71.000%{opacity:1;transform:scale(1.08)} 71.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a35{animation:a35 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@keyframes a36{0.000%{opacity:0;transform:scale(.6)} 71.000%{opacity:0;transform:scale(.6)} 72.000%{opacity:1;transform:scale(1.08)} 72.800%{opacity:1;transform:scale(1)} 96.000%{opacity:1;transform:scale(1)} 98.000%{opacity:0;transform:scale(1)} 100.000%{opacity:0;transform:scale(1)}}
+.a36{animation:a36 14.0s linear infinite;transform-box:fill-box;transform-origin:center;}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}</style><rect x="0" y="0" width="1200" height="520" rx="14" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+<text x="28" y="42" font-size="21" fill="#1f2328" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">DUET at <tspan fill="#1a4f99" font-weight="700">half</tspan> the rollout budget: <tspan fill="#1a4f99" font-weight="700">2.51× faster</tspan> and <tspan fill="#1a4f99" font-weight="700">+5.3 MATH-500</tspan> vs. full-budget GRPO</text>
+<text x="28" y="66" font-size="12.5" fill="#57606a" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Qwen3-1.7B-Base trained on MATH · mean@4 accuracy (%) · wall-clock on the same 8×H100 node and engine</text>
+<text x="28" y="110" font-size="14.5" fill="#1f2328" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">(a) Same 232 training steps — who finishes first, and how good is the model?</text>
+<text x="170" y="136" font-size="11.5" fill="#8c959f" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">training progress →</text>
+<text x="560" y="136" font-size="11.5" fill="#8c959f" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">wall-clock</text>
+<text x="650" y="136" font-size="11.5" fill="#8c959f" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">MATH-500</text>
+<text x="158" y="172" font-size="14" fill="#1a4f99" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">DUET · 50% budget</text>
+<rect x="170" y="156" width="330" height="22" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="170" y="156" width="330" height="22" rx="5" fill="#1a4f99" stroke="none" stroke-width="1" class="a1"/>
+<g class="a2">
+<text x="510" y="172" font-size="15" fill="#1a4f99" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+</g>
+<g class="a3">
+<text x="560" y="172" font-size="14" fill="#1a4f99" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">0.40×</text>
+<text x="650" y="172" font-size="15" fill="#1a4f99" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">62.1</text>
+</g>
+<text x="158" y="222" font-size="14" fill="#1a4f99" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">DUET</text>
+<rect x="170" y="206" width="330" height="22" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="170" y="206" width="330" height="22" rx="5" fill="#2a78d6" stroke="none" stroke-width="1" class="a4"/>
+<g class="a5">
+<text x="510" y="222" font-size="15" fill="#1a4f99" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+</g>
+<g class="a6">
+<text x="560" y="222" font-size="14" fill="#1a4f99" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">0.62×</text>
+<text x="650" y="222" font-size="15" fill="#1a4f99" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">61.6</text>
+</g>
+<text x="158" y="272" font-size="14" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">ARRoL</text>
+<rect x="170" y="256" width="330" height="22" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="170" y="256" width="330" height="22" rx="5" fill="#b4bcc6" stroke="none" stroke-width="1" class="a7"/>
+<g class="a8">
+<text x="510" y="272" font-size="15" fill="#6e7781" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+</g>
+<g class="a9">
+<text x="560" y="272" font-size="14" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">0.77×</text>
+<text x="650" y="272" font-size="15" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">58.4</text>
+</g>
+<text x="158" y="322" font-size="14" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">GRPO</text>
+<rect x="170" y="306" width="330" height="22" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="170" y="306" width="330" height="22" rx="5" fill="#b4bcc6" stroke="none" stroke-width="1" class="a10"/>
+<g class="a11">
+<text x="510" y="322" font-size="15" fill="#6e7781" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+</g>
+<g class="a12">
+<text x="560" y="322" font-size="14" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">1.00×</text>
+<text x="650" y="322" font-size="15" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">56.8</text>
+</g>
+<text x="158" y="372" font-size="14" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">VIP</text>
+<rect x="170" y="356" width="330" height="22" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="170" y="356" width="330" height="22" rx="5" fill="#b4bcc6" stroke="none" stroke-width="1" class="a13"/>
+<g class="a14">
+<text x="510" y="372" font-size="15" fill="#6e7781" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+</g>
+<g class="a15">
+<text x="560" y="372" font-size="14" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">1.05×</text>
+<text x="650" y="372" font-size="15" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">58.6</text>
+</g>
+<text x="158" y="422" font-size="14" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">DAPO</text>
+<rect x="170" y="406" width="330" height="22" rx="5" fill="#eceff2" stroke="none" stroke-width="1"/>
+<rect x="170" y="406" width="330" height="22" rx="5" fill="#b4bcc6" stroke="none" stroke-width="1" class="a16"/>
+<g class="a17">
+<text x="510" y="422" font-size="15" fill="#6e7781" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+</g>
+<g class="a18">
+<text x="560" y="422" font-size="14" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">1.23×</text>
+<text x="650" y="422" font-size="15" fill="#1f2328" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">57.6</text>
+</g>
+<text x="28" y="468" font-size="11.5" fill="#8c959f" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">wall-clock = time to finish, relative to full-budget GRPO (lower is better) · Table 1</text>
+<text x="720" y="110" font-size="14.5" fill="#1f2328" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">(b) The tighter the budget, the bigger DUET’s lead</text>
+<line x1="776" y1="379.1111111111111" x2="1160" y2="379.1111111111111" stroke="#eef1f4" stroke-width="1" stroke-linecap="round"/>
+<text x="766" y="383.1111111111111" font-size="11.5" fill="#8c959f" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">55</text>
+<line x1="776" y1="321.33333333333337" x2="1160" y2="321.33333333333337" stroke="#eef1f4" stroke-width="1" stroke-linecap="round"/>
+<text x="766" y="325.33333333333337" font-size="11.5" fill="#8c959f" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">57</text>
+<line x1="776" y1="263.55555555555554" x2="1160" y2="263.55555555555554" stroke="#eef1f4" stroke-width="1" stroke-linecap="round"/>
+<text x="766" y="267.55555555555554" font-size="11.5" fill="#8c959f" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">59</text>
+<line x1="776" y1="205.77777777777777" x2="1160" y2="205.77777777777777" stroke="#eef1f4" stroke-width="1" stroke-linecap="round"/>
+<text x="766" y="209.77777777777777" font-size="11.5" fill="#8c959f" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">61</text>
+<line x1="776" y1="148.0" x2="1160" y2="148.0" stroke="#eef1f4" stroke-width="1" stroke-linecap="round"/>
+<text x="766" y="152.0" font-size="11.5" fill="#8c959f" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">63</text>
+<text transform="translate(734 278.0) rotate(-90)" font-size="11.5" fill="#8c959f" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">MATH-500 mean@4 (%)</text>
+<line x1="776" y1="408" x2="1160" y2="408" stroke="#8c959f" stroke-width="1.2" stroke-linecap="round"/>
+<text x="848.96" y="430" font-size="13" fill="#1f2328" text-anchor="middle" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">100% budget</text>
+<g class="a19">
+<circle cx="822.96" cy="327.1111111111112" r="4.5" fill="#b4bcc6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="822.96" cy="304.0" r="4.5" fill="#b4bcc6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="822.96" cy="280.8888888888889" r="4.5" fill="#b4bcc6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="822.96" cy="275.1111111111111" r="6.5" fill="#6e7781" stroke="#ffffff" stroke-width="2"/>
+<text x="810.96" y="279.1111111111111" font-size="11.5" fill="#57606a" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">VIP 58.6</text>
+</g>
+<rect x="847.46" y="188.44444444444443" width="3" height="86.66666666666666" fill="#2a78d6" rx="1.5" class="a20"/>
+<line x1="822.96" y1="275.1111111111111" x2="848.96" y2="275.1111111111111" stroke="#6e7781" stroke-width="1.2" stroke-linecap="round" class="a21" stroke-dasharray="3 3"/>
+<g class="a22">
+<circle cx="848.96" cy="188.44444444444443" r="8" fill="#1a4f99" stroke="#ffffff" stroke-width="2"/>
+<text x="834.96" y="193.44444444444443" font-size="13" fill="#1a4f99" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">DUET 61.6</text>
+</g>
+<g class="a23">
+<rect x="858.96" y="218.77777777777777" width="56" height="24" rx="12" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1"/>
+<text x="886.96" y="235.77777777777777" font-size="14" fill="#1a4f99" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">+3.0</text>
+</g>
+<g class="a24">
+<text x="848.96" y="450" font-size="12.5" fill="#1a4f99" text-anchor="middle" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">1.62× faster</text>
+</g>
+<text x="975.6800000000001" y="430" font-size="13" fill="#1f2328" text-anchor="middle" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">50% budget</text>
+<g class="a25">
+<circle cx="949.6800000000001" cy="338.66666666666674" r="4.5" fill="#b4bcc6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="949.6800000000001" cy="332.88888888888886" r="4.5" fill="#b4bcc6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="949.6800000000001" cy="350.22222222222223" r="4.5" fill="#b4bcc6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="949.6800000000001" cy="278.0" r="6.5" fill="#6e7781" stroke="#ffffff" stroke-width="2"/>
+<text x="937.6800000000001" y="282.0" font-size="11.5" fill="#57606a" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">ARRoL 58.5</text>
+</g>
+<rect x="974.1800000000001" y="173.99999999999997" width="3" height="104.00000000000003" fill="#2a78d6" rx="1.5" class="a26"/>
+<line x1="949.6800000000001" y1="278.0" x2="975.6800000000001" y2="278.0" stroke="#6e7781" stroke-width="1.2" stroke-linecap="round" class="a27" stroke-dasharray="3 3"/>
+<g class="a28">
+<circle cx="975.6800000000001" cy="173.99999999999997" r="8" fill="#1a4f99" stroke="#ffffff" stroke-width="2"/>
+<text x="961.6800000000001" y="178.99999999999997" font-size="13" fill="#1a4f99" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">DUET 62.1</text>
+</g>
+<g class="a29">
+<rect x="985.6800000000001" y="213.0" width="56" height="24" rx="12" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1"/>
+<text x="1013.6800000000001" y="230.0" font-size="14" fill="#1a4f99" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">+3.6</text>
+</g>
+<g class="a30">
+<text x="975.6800000000001" y="450" font-size="12.5" fill="#1a4f99" text-anchor="middle" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">2.51× faster</text>
+</g>
+<text x="1102.4" y="430" font-size="13" fill="#1f2328" text-anchor="middle" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">25% budget</text>
+<g class="a31">
+<circle cx="1076.4" cy="382.00000000000006" r="4.5" fill="#b4bcc6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="1076.4" cy="364.6666666666667" r="4.5" fill="#b4bcc6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="1076.4" cy="376.2222222222222" r="4.5" fill="#b4bcc6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="1076.4" cy="318.4444444444444" r="6.5" fill="#6e7781" stroke="#ffffff" stroke-width="2"/>
+<text x="1064.4" y="322.4444444444444" font-size="11.5" fill="#57606a" text-anchor="end" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">ARRoL 57.1</text>
+</g>
+<rect x="1100.9" y="194.22222222222226" width="3" height="124.22222222222214" fill="#2a78d6" rx="1.5" class="a32"/>
+<line x1="1076.4" y1="318.4444444444444" x2="1102.4" y2="318.4444444444444" stroke="#6e7781" stroke-width="1.2" stroke-linecap="round" class="a33" stroke-dasharray="3 3"/>
+<g class="a34">
+<circle cx="1102.4" cy="194.22222222222226" r="8" fill="#1a4f99" stroke="#ffffff" stroke-width="2"/>
+<text x="1088.4" y="199.22222222222226" font-size="13" fill="#1a4f99" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">DUET 61.4</text>
+</g>
+<g class="a35">
+<rect x="1112.4" y="243.33333333333331" width="56" height="24" rx="12" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1"/>
+<text x="1140.4" y="260.3333333333333" font-size="14" fill="#1a4f99" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">+4.3</text>
+</g>
+<g class="a36">
+<text x="1102.4" y="450" font-size="12.5" fill="#1a4f99" text-anchor="middle" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">3.4× faster</text>
+</g>
+<text x="720" y="478" font-size="11.5" fill="#8c959f" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">gap = DUET − best of GRPO / DAPO / ARRoL / VIP at that budget</text>
+<text x="720" y="494" font-size="11.5" fill="#8c959f" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">speed = wall-clock vs. full-budget GRPO · Tables 1 &amp; 5, Fig. 3b</text></svg>
