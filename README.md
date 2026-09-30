@@ -3,6 +3,8 @@
 
 🎉 **DUET has been accepted to NeurIPS 2026!**
 
+![DUET in four panels: the Allocator and the Stopper sing a duet kept on budget by one conductor, λ*](figure/duet_comic.svg)
+
 ![DUET method: allocate, generate, update under one budget-pressure signal λ* (animated)](figure/duet_method.svg)
 
 Official Repository of **DUET** (**DU**al-controlled tok**E**n alloca**T**ion), a joint allocator that splits a fixed
@@ -161,7 +163,8 @@ The defaults reproduce the paper. Override with environment variables to
 duet-code-repo/
 ├── README.md
 ├── figure/
-│   ├── duet_method.svg               # animated method illustrator (rendered at the top)
+│   ├── duet_comic.svg                # four-panel comic of the idea (rendered at the top)
+│   ├── duet_method.svg               # animated method illustrator
 │   ├── schematics-ver6.png           # static method figure (paper version)
 │   ├── fig1_money_plot.png           # main-results figure
 │   └── duet_results.svg              # animated headline results

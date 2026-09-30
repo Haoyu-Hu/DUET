@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 836" width="1200" height="836" role="img" aria-labelledby="t d"><title id="t">DUET in four panels</title><desc id="d">Comic. 1: plain GRPO gives every prompt 8 rollouts that run as long as they like; solved prompts give no signal and rambling rollouts waste tokens. 2: the Allocator gives more rollouts to prompts whose rollouts disagree and fewer to solved or long ones, n proportional to s over sqrt(L). 3: the Stopper snips a rollout once its boxed answer appears and aborts rollouts with no answer by K2, except an epsilon fraction kept with weight 1/epsilon. 4: one conductor, lambda*, keeps both on budget: tight budget means fewer rollouts and tighter gates. Result: half the budget, 2.51x faster and +5.3 MATH-500 vs full-budget GRPO on Qwen3-1.7B.</desc><rect width="1200" height="836" rx="16" fill="#ffffff"/>
+<g transform="translate(16.0 16.0)">
+<rect x="0" y="0" width="576.0" height="394.0" rx="4" fill="#fdfcf8" stroke="#1f2328" stroke-width="3"/>
+<clipPath id="c00"><rect x="0" y="0" width="576.0" height="394.0" rx="4"/></clipPath><g clip-path="url(#c00)">
+<rect x="-2" y="-2" width="325.59999999999997" height="38" rx="0" fill="#fff1b8" stroke="#1f2328" stroke-width="2.5"/>
+<text x="12" y="24" font-size="17" fill="#1f2328" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">1 · Plain GRPO spends tokens blindly</text>
+<rect x="37.0" y="196" width="150" height="14" rx="7" fill="#c9d6ea" stroke="#57606a" stroke-width="1.2"/>
+<text x="112" y="207" font-size="9.5" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">tok tok tok tok tok </text>
+<rect x="34.0" y="179" width="176" height="14" rx="7" fill="#b8c9e2" stroke="#57606a" stroke-width="1.2"/>
+<text x="122" y="190" font-size="9.5" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">tok tok tok tok tok tok</text>
+<rect x="46.0" y="162" width="140" height="14" rx="7" fill="#d6e0ef" stroke="#57606a" stroke-width="1.2"/>
+<text x="116" y="173" font-size="9.5" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">tok tok tok tok tok</text>
+<rect x="31.0" y="145" width="190" height="14" rx="7" fill="#c9d6ea" stroke="#57606a" stroke-width="1.2"/>
+<text x="126" y="156" font-size="9.5" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">tok tok tok tok tok tok</text>
+<rect x="28.0" y="128" width="160" height="14" rx="7" fill="#b8c9e2" stroke="#57606a" stroke-width="1.2"/>
+<text x="108" y="139" font-size="9.5" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">tok tok tok tok tok to</text>
+<rect x="60.0" y="111" width="120" height="14" rx="7" fill="#d6e0ef" stroke="#57606a" stroke-width="1.2"/>
+<text x="120" y="122" font-size="9.5" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">tok tok tok tok </text>
+<path d="M52 226 H63" stroke="#1f2328" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M173 226 H184" stroke="#1f2328" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M52 246 H63" stroke="#1f2328" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M173 246 H184" stroke="#1f2328" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M52 266 H63" stroke="#1f2328" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M173 266 H184" stroke="#1f2328" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M52 286 H63" stroke="#1f2328" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M173 286 H184" stroke="#1f2328" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="63" y="211" width="110" height="90" rx="14" fill="#dbe4f0" stroke="#1f2328" stroke-width="2.5"/>
+<rect x="78" y="224" width="80" height="64" rx="8" fill="#c5d3e6" stroke="#57606a" stroke-width="1.5"/>
+<circle cx="102" cy="246" r="5" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<circle cx="134" cy="246" r="5" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<path d="M104 270 Q111 262 118 270 Q125 278 132 270" stroke="#1f2328" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="118" y="292" font-size="12" fill="#57606a" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">GPU</text>
+<path d="M180 204 q-6 10 0 14 q6 -4 0 -14z" stroke="#2a78d6" stroke-width="1.6" fill="#8fb8ec" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M192 226 q-6 10 0 14 q6 -4 0 -14z" stroke="#2a78d6" stroke-width="1.6" fill="#8fb8ec" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="118" y="336" font-size="13" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">one training step:</text>
+<text x="118" y="354" font-size="13" fill="#57606a" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">~hundreds of thousands of tokens</text>
+<rect x="212" y="52" width="350" height="64" rx="18" fill="#ffffff" stroke="#1f2328" stroke-width="2.5"/>
+<path d="M242 114 L176 176 L266 114" stroke="#1f2328" stroke-width="2.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="387.0" y="78.25" font-size="15" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">8 rollouts for EVERY prompt,</text>
+<text x="387.0" y="98.25" font-size="15" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">and each runs as long as it likes?!</text>
+<rect x="232" y="148" width="138" height="56" rx="6" fill="#ffffff" stroke="#1f2328" stroke-width="2.2"/>
+<path d="M354 148 L370 164" stroke="#1f2328" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="242" y="170" font-size="15" fill="#1f2328" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Q: 7 + 5 = ?</text>
+<text x="244" y="193" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="261" y="193" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="278" y="193" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="295" y="193" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="312" y="193" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="329" y="193" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="346" y="193" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="380" y="166" font-size="14" fill="#57606a" text-anchor="start" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">all correct →</text>
+<text x="380" y="186" font-size="14" fill="#cf222e" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">zero learning signal</text>
+<rect x="232" y="250" width="420" height="30" rx="15" fill="#eef1f4" stroke="#57606a" stroke-width="1.6"/>
+<text x="246" y="270" font-size="13.5" fill="#57606a" text-anchor="start" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif" font-style="italic">…so x = 4? wait, let me re-check… hmm… again…</text>
+<text x="232" y="306" font-size="14" fill="#57606a" text-anchor="start" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">no answer in sight, still generating…</text>
+<text x="232" y="330" font-size="14" fill="#1f2328" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">most of these tokens teach nothing</text>
+</g>
+<rect x="0" y="0" width="576.0" height="394.0" rx="4" fill="none" stroke="#1f2328" stroke-width="3"/>
+</g>
+<g transform="translate(608.0 16.0)">
+<rect x="0" y="0" width="576.0" height="394.0" rx="4" fill="#fdfcf8" stroke="#1f2328" stroke-width="3"/>
+<clipPath id="c10"><rect x="0" y="0" width="576.0" height="394.0" rx="4"/></clipPath><g clip-path="url(#c10)">
+<rect x="-2" y="-2" width="437.4" height="38" rx="0" fill="#fff1b8" stroke="#1f2328" stroke-width="2.5"/>
+<text x="12" y="24" font-size="17" fill="#1f2328" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">2 · The Allocator: rollouts where the learning is</text>
+<path d="M72.0 288.0 L58.0 322.0" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M112.0 288.0 L150 262" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M81.0 336.0 L77.0 366" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M103.0 336.0 L107.0 366" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="66.0" y="274.0" width="52.0" height="64.0" rx="20.0" fill="#2a78d6" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="92" cy="248.0" r="24.0" fill="#f6d7b8" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="88.0" cy="245.0" r="2.6" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<circle cx="104.0" cy="245.0" r="2.6" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<ellipse cx="96.0" cy="259.0" rx="4.5" ry="5.5" fill="#1f2328"/>
+<rect x="146" y="244" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M149 251 H157" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="152" y="240" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M155 247 H163" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="158" y="236" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M161 243 H169" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="164" y="232" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M167 239 H175" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="34" y="214" font-size="22" fill="#57606a" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">♪</text>
+<text x="52" y="186" font-size="18" fill="#57606a" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">♪</text>
+<rect x="22" y="52" width="250" height="116" rx="18" fill="#ffffff" stroke="#1f2328" stroke-width="2.5"/>
+<path d="M96 166 L96 222 L120 166" stroke="#1f2328" stroke-width="2.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="147.0" y="84.25" font-size="15" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Rollouts that disagree</text>
+<text x="147.0" y="104.25" font-size="15" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">teach the most; long ones</text>
+<text x="147.0" y="124.25" font-size="15" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">cost more, so</text>
+<text x="147.0" y="144.25" font-size="15" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif"></text>
+<text x="147" y="150" font-size="18" fill="#2a78d6" text-anchor="middle" font-weight="700" font-family="Georgia,'Times New Roman',serif" font-style="italic">n ∝ ŝ / √L̂</text>
+<rect x="296" y="70" width="120" height="56" rx="6" fill="#ffffff" stroke="#1f2328" stroke-width="2.2"/>
+<path d="M400 70 L416 86" stroke="#1f2328" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="306" y="92" font-size="15" fill="#1f2328" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Q-a</text>
+<text x="308" y="115" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="325" y="115" font-size="15" fill="#cf222e" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✗</text>
+<text x="342" y="115" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="359" y="115" font-size="15" fill="#cf222e" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✗</text>
+<text x="376" y="115" font-size="15" fill="#cf222e" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✗</text>
+<text x="393" y="115" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<rect x="424" y="87" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M427 94 H435" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="441" y="87" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M444 94 H452" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="458" y="87" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M461 94 H469" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="475" y="87" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M478 94 H486" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="492" y="87" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M495 94 H503" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="509" y="87" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M512 94 H520" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="530" y="104" font-size="14" fill="#2a78d6" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">n=6</text>
+<rect x="296" y="166" width="120" height="56" rx="6" fill="#ffffff" stroke="#1f2328" stroke-width="2.2"/>
+<path d="M400 166 L416 182" stroke="#1f2328" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="306" y="188" font-size="15" fill="#1f2328" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Q-b</text>
+<text x="308" y="211" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="325" y="211" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="342" y="211" font-size="15" fill="#cf222e" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✗</text>
+<text x="359" y="211" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="376" y="211" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="393" y="211" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<rect x="424" y="183" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M427 190 H435" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="441" y="183" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M444 190 H452" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="458" y="183" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M461 190 H469" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="479" y="200" font-size="14" fill="#2a78d6" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">n=3</text>
+<rect x="296" y="262" width="120" height="56" rx="6" fill="#ffffff" stroke="#1f2328" stroke-width="2.2"/>
+<path d="M400 262 L416 278" stroke="#1f2328" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="306" y="284" font-size="15" fill="#1f2328" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Q-c</text>
+<text x="308" y="307" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="325" y="307" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="342" y="307" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="359" y="307" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="376" y="307" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<text x="393" y="307" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✓</text>
+<rect x="424" y="279" width="14" height="22" rx="3" fill="#eaf2fc" stroke="#2a78d6" stroke-width="1.8"/>
+<path d="M427 286 H435" stroke="#2a78d6" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="445" y="296" font-size="14" fill="#2a78d6" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">n=1</text>
+<text x="296" y="364" font-size="13" fill="#57606a" text-anchor="start" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">mixed ✓✗ → more rollouts · solved → fewer</text>
+</g>
+<rect x="0" y="0" width="576.0" height="394.0" rx="4" fill="none" stroke="#1f2328" stroke-width="3"/>
+</g>
+<g transform="translate(16.0 426.0)">
+<rect x="0" y="0" width="576.0" height="394.0" rx="4" fill="#fdfcf8" stroke="#1f2328" stroke-width="3"/>
+<clipPath id="c01"><rect x="0" y="0" width="576.0" height="394.0" rx="4"/></clipPath><g clip-path="url(#c01)">
+<rect x="-2" y="-2" width="385.8" height="38" rx="0" fill="#fff1b8" stroke="#1f2328" stroke-width="2.5"/>
+<text x="12" y="24" font-size="17" fill="#1f2328" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">3 · The Stopper: stop once the answer is in</text>
+<path d="M47.0 276.3 L28 258" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M93.0 276.3 L116 222" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M57.35 331.5 L52.75 366" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M82.65 331.5 L87.25 366" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="40.1" y="260.2" width="59.8" height="73.6" rx="23.0" fill="#1a7f37" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="70" cy="230.3" r="27.599999999999998" fill="#f6d7b8" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="65.39999999999999" cy="226.85000000000002" r="2.9899999999999998" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<circle cx="83.8" cy="226.85000000000002" r="2.9899999999999998" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<path d="M65.39999999999999 242.95000000000002 H83.8" stroke="#1f2328" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M59.65 216.5 L70.0 221.10000000000002" stroke="#1f2328" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M89.55 216.5 L79.19999999999999 221.10000000000002" stroke="#1f2328" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="108" y="230" font-size="34" fill="#1f2328" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">✂</text>
+<path d="M300 128 V352" stroke="#57606a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5"/>
+<path d="M300 128 L326 136 L300 144 Z" stroke="#1f2328" stroke-width="1.6" fill="#2a78d6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="294" y="124" font-size="15" fill="#1f2328" text-anchor="end" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">K₁</text>
+<path d="M440 128 V352" stroke="#57606a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5"/>
+<path d="M440 128 L466 136 L440 144 Z" stroke="#1f2328" stroke-width="1.6" fill="#cf222e" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="434" y="124" font-size="15" fill="#1f2328" text-anchor="end" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">K₂</text>
+<rect x="150" y="166" width="202" height="26" rx="13" fill="#8fb8ec" stroke="#57606a" stroke-width="1.4"/>
+<rect x="260" y="168" width="84" height="22" rx="11" fill="#e6f6ea" stroke="#1a7f37" stroke-width="1.6"/>
+<text x="302" y="184" font-size="12.5" fill="#1a7f37" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">\boxed{42}</text>
+<text x="358" y="186" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">✂ done ✓</text>
+<rect x="150" y="216" width="254" height="26" rx="13" fill="#8fb8ec" stroke="#57606a" stroke-width="1.4"/>
+<rect x="312" y="218" width="84" height="22" rx="11" fill="#e6f6ea" stroke="#1a7f37" stroke-width="1.6"/>
+<text x="354" y="234" font-size="12.5" fill="#1a7f37" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">\boxed{7}</text>
+<text x="410" y="236" font-size="15" fill="#1a7f37" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">✂ done ✓</text>
+<rect x="150" y="266" width="290" height="26" rx="13" fill="#fdeaea" stroke="#cf222e" stroke-width="1.6"/>
+<text x="164" y="284" font-size="12.5" fill="#cf222e" text-anchor="start" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif" font-style="italic">…hmm… maybe… let me see…</text>
+<text x="448" y="286" font-size="15" fill="#cf222e" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">✗ out (masked)</text>
+<rect x="150" y="316" width="290" height="26" rx="13" fill="#8fb8ec" stroke="#57606a" stroke-width="1.4"/>
+<rect x="440" y="316" width="120" height="26" rx="13" fill="#fbf1dc" stroke="#b7791f" stroke-width="1.6" stroke-dasharray="5 4"/>
+<circle cx="440" cy="329" r="13" fill="#f3d27a" stroke="#b7791f" stroke-width="2"/>
+<text x="440" y="334" font-size="14" fill="#1f2328" text-anchor="middle" font-weight="700" font-family="Georgia,'Times New Roman',serif">ε</text>
+<text x="308" y="362" font-size="13.5" fill="#b7791f" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">lucky ε-coin: kept, weight 1/ε</text>
+<rect x="160" y="50" width="400" height="62" rx="18" fill="#ffffff" stroke="#1f2328" stroke-width="2.5"/>
+<path d="M190 110 L92 190 L230 110" stroke="#1f2328" stroke-width="2.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="360.0" y="74.775" font-size="14.5" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Boxed answer? Snip. No answer by K₂? Out,</text>
+<text x="360.0" y="94.775" font-size="14.5" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">unless the ε-coin keeps it (reweighted, unbiased).</text>
+</g>
+<rect x="0" y="0" width="576.0" height="394.0" rx="4" fill="none" stroke="#1f2328" stroke-width="3"/>
+</g>
+<g transform="translate(608.0 426.0)">
+<rect x="0" y="0" width="576.0" height="394.0" rx="4" fill="#fdfcf8" stroke="#1f2328" stroke-width="3"/>
+<clipPath id="c11"><rect x="0" y="0" width="576.0" height="394.0" rx="4"/></clipPath><g clip-path="url(#c11)">
+<rect x="-2" y="-2" width="411.59999999999997" height="38" rx="0" fill="#fff1b8" stroke="#1f2328" stroke-width="2.5"/>
+<text x="12" y="24" font-size="17" fill="#1f2328" text-anchor="start" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">4 · One conductor keeps the duet on budget: λ*</text>
+<rect x="236" y="318" width="104" height="22" rx="4" fill="#e6dcc8" stroke="#1f2328" stroke-width="2.2"/>
+<path d="M268.0 240.0 L236 262" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M308.0 240.0 L350 196" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M277.0 288.0 L273.0 318" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M299.0 288.0 L303.0 318" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="262.0" y="226.0" width="52.0" height="64.0" rx="20.0" fill="#3b3f46" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="288" cy="200.0" r="24.0" fill="#f6d7b8" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="280.0" cy="197.0" r="2.6" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<circle cx="296.0" cy="197.0" r="2.6" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<path d="M279.0 208.0 Q288.0 216.0 297.0 208.0" stroke="#1f2328" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M350 196 L396 170" stroke="#1f2328" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M279 230 l9 6 l9 -6 v12 l-9 -6 l-9 6z" stroke="#1f2328" stroke-width="1.6" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="288" y="270" font-size="22" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="Georgia,'Times New Roman',serif" font-style="italic">λ*</text>
+<path d="M66.4 279.15999999999997 L55.480000000000004 305.68" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M97.6 279.15999999999997 L108.52 305.68" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M73.42 316.6 L70.3 340" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M90.58 316.6 L93.7 340" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="61.72" y="268.24" width="40.56" height="49.92" rx="15.600000000000001" fill="#2a78d6" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="82" cy="247.95999999999998" r="18.72" fill="#f6d7b8" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="78.88000000000001" cy="245.61999999999998" r="2.028" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<circle cx="91.36" cy="245.61999999999998" r="2.028" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<ellipse cx="85.12" cy="256.53999999999996" rx="3.5100000000000002" ry="4.29" fill="#1f2328"/>
+<text x="82" y="360" font-size="13" fill="#2a78d6" text-anchor="middle" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Allocator</text>
+<path d="M478.4 279.15999999999997 L467.48 305.68" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M509.6 279.15999999999997 L520.52 305.68" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M485.42 316.6 L482.3 340" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M502.58 316.6 L505.7 340" stroke="#1f2328" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="473.72" y="268.24" width="40.56" height="49.92" rx="15.600000000000001" fill="#1a7f37" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="494" cy="247.95999999999998" r="18.72" fill="#f6d7b8" stroke="#1f2328" stroke-width="2.5"/>
+<circle cx="484.64" cy="245.61999999999998" r="2.028" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<circle cx="497.12" cy="245.61999999999998" r="2.028" fill="#1f2328" stroke="#1f2328" stroke-width="0"/>
+<ellipse cx="490.88" cy="256.53999999999996" rx="3.5100000000000002" ry="4.29" fill="#1f2328"/>
+<text x="494" y="360" font-size="13" fill="#1a7f37" text-anchor="middle" font-weight="700" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Stopper</text>
+<text x="116" y="210" font-size="22" fill="#2a78d6" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">♪</text>
+<text x="128" y="184" font-size="18" fill="#2a78d6" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">♪</text>
+<text x="446" y="208" font-size="22" fill="#1a7f37" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">♪</text>
+<text x="434" y="182" font-size="18" fill="#1a7f37" text-anchor="start" font-weight="normal" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">♪</text>
+<rect x="150" y="50" width="268" height="84" rx="18" fill="#ffffff" stroke="#1f2328" stroke-width="2.5"/>
+<path d="M300 132 L300 150 L324 132" stroke="#1f2328" stroke-width="2.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="284.0" y="74.275" font-size="14.5" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Tokens tight? λ* up:</text>
+<text x="284.0" y="95.275" font-size="14.5" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">fewer rollouts, tighter gates.</text>
+<text x="284.0" y="116.275" font-size="14.5" fill="#1f2328" text-anchor="middle" font-weight="normal" font-family="'Comic Sans MS','Comic Neue','Chalkboard SE','Segoe Print',sans-serif">Plenty? Everyone relaxes.</text>
+<rect x="0" y="364.0" width="576.0" height="30" rx="0" fill="#1a4f99" stroke="none" stroke-width="1.5"/>
+<text x="288.0" y="384.0" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">Half the budget → 2.51× faster and +5.3 MATH-500 vs. full GRPO (Qwen3-1.7B)</text>
+</g>
+<rect x="0" y="0" width="576.0" height="394.0" rx="4" fill="none" stroke="#1f2328" stroke-width="3"/>
+</g></svg>
