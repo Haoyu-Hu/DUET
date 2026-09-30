@@ -9,8 +9,9 @@ date first) or LABEL=/path/to/tensorboard. The first run is the reference for
 the speedup column. Reported, per run:
   * best val mean@N per benchmark over all validation checkpoints (the paper's
     headline metric), with the step it was reached at;
-  * wall-clock = sum of timing_s/step over training steps (validation passes
-    are timed separately by verl, so they are excluded), speedup vs run 1;
+  * training wall-clock = sum over steps of timing_s/step minus timing_s/testing
+    (verl's step timer also covers the validation pass on test steps), speedup
+    vs run 1; validation time is reported separately;
   * median generation time per step and mean response length;
   * DUET diagnostics when present (abort / marker / eps-kept rates, n_q range).
 """
@@ -65,8 +66,10 @@ def summarize(series) -> dict:
         if m and pts:
             step, best = max(pts, key=lambda p: (p[1], -p[0]))
             out["val"][m["ds"]] = (100.0 * best, step, int(m["n"]))
-    steps = [v for s, v in series.get("timing_s/step", []) if s > 0]
-    out["wall_s"] = sum(steps) if steps else None
+    testing = dict(series.get("timing_s/testing", []))
+    steps = [(s, v) for s, v in series.get("timing_s/step", []) if s > 0]
+    out["wall_s"] = sum(v - testing.get(s, 0.0) for s, v in steps) if steps else None
+    out["val_s"] = sum(testing.get(s, 0.0) for s, _ in steps) if steps else None
     out["n_steps"] = len(steps)
     gen = [v for _, v in series.get("timing_s/gen", [])]
     out["gen_med"] = statistics.median(gen) if gen else None
@@ -101,17 +104,18 @@ def main() -> None:
                 cells.append("—".rjust(20))
         print(label.ljust(w) + "".join(cells))
 
-    print("\nwall-clock (sum of timing_s/step; validation excluded)")
+    print("\ntraining wall-clock (timing_s/step minus validation), validation time separate")
     ref = runs[0][2]["wall_s"]
     print("run".ljust(w) + "steps".rjust(8) + "wall (min)".rjust(12) + "speedup".rjust(10)
-          + "gen/step (s)".rjust(14) + "resp len".rjust(10))
+          + "gen/step (s)".rjust(14) + "resp len".rjust(10) + "val (min)".rjust(11))
     for label, _, s in runs:
         wall = s["wall_s"]
         sp = f"{ref / wall:.2f}x" if (ref and wall) else "—"
         print(label.ljust(w) + f"{s['n_steps']:>8}"
               + (f"{wall / 60:12.1f}" if wall else "—".rjust(12)) + sp.rjust(10)
               + (f"{s['gen_med']:14.1f}" if s["gen_med"] else "—".rjust(14))
-              + (f"{s['resp_len']:10.0f}" if s["resp_len"] else "—".rjust(10)))
+              + (f"{s['resp_len']:10.0f}" if s["resp_len"] else "—".rjust(10))
+              + (f"{s['val_s'] / 60:11.1f}" if s["val_s"] is not None else "—".rjust(11)))
 
     duet_runs = [(lbl, s["duet"]) for lbl, _, s in runs if s["duet"]]
     if duet_runs:
