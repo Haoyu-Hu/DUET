@@ -92,6 +92,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--gpus-per-node", type=int, default=1)
     parser.add_argument("--gpu-memory-utilization", type=float, default=0.7)
     parser.add_argument("--save-freq", type=int, default=0)
+    parser.add_argument("--resume-mode", default="disable", choices=["disable", "auto"],
+                        help="auto: resume from the latest checkpoint under the run dir "
+                             "(chunked Slurm runs); disable: always start fresh.")
+    parser.add_argument("--esi-redundant-time", type=int, default=0,
+                        help="Seconds of margin before MLP_CURRENT_CAPACITY_BLOCK_EXPIRATION_TIMESTAMP "
+                             "at which to force a checkpoint and stop (chunked runs).")
     parser.add_argument("--test-freq", type=int, default=30)
     parser.add_argument("--compute-val-aux", action="store_true", default=False)
     parser.add_argument("--trainer-logger", default="['console','tensorboard']")

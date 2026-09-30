@@ -10,8 +10,8 @@ the speedup column. Reported, per run:
   * best val mean@N per benchmark over all validation checkpoints (the paper's
     headline metric), with the step it was reached at;
   * training wall-clock = sum over steps of timing_s/step minus timing_s/testing
-    (verl's step timer also covers the validation pass on test steps), speedup
-    vs run 1; validation time is reported separately;
+    and timing_s/save_checkpoint (verl's step timer also covers validation and
+    checkpoint saves), speedup vs run 1; validation time is reported separately;
   * median generation time per step and mean response length;
   * DUET diagnostics when present (abort / marker / eps-kept rates, n_q range).
 """
@@ -46,17 +46,22 @@ def resolve(spec: str) -> tuple[str, str]:
 
 
 def load(tb_dir: str) -> dict[str, list[tuple[int, float]]]:
-    series: dict[str, list[tuple[int, float]]] = defaultdict(list)
+    """All scalars under tb_dir. A step logged more than once (a chunked run
+    that died after its last checkpoint and re-ran those steps) keeps the
+    most recently written value."""
+    latest: dict[str, dict[int, tuple[float, float]]] = defaultdict(dict)
     for root, _, files in os.walk(tb_dir):
-        if not any(f.startswith("events.out.tfevents") for f in files):
-            continue
-        acc = EventAccumulator(root, size_guidance={"scalars": 0})
-        acc.Reload()
-        for tag in acc.Tags().get("scalars", []):
-            series[tag].extend((e.step, e.value) for e in acc.Scalars(tag))
-    for tag in series:
-        series[tag].sort()
-    return series
+        for fname in files:
+            if not fname.startswith("events.out.tfevents"):
+                continue
+            acc = EventAccumulator(os.path.join(root, fname), size_guidance={"scalars": 0})
+            acc.Reload()
+            for tag in acc.Tags().get("scalars", []):
+                for e in acc.Scalars(tag):
+                    prev = latest[tag].get(e.step)
+                    if prev is None or e.wall_time >= prev[0]:
+                        latest[tag][e.step] = (e.wall_time, e.value)
+    return {tag: sorted((st, v) for st, (_, v) in d.items()) for tag, d in latest.items()}
 
 
 def summarize(series) -> dict:
@@ -67,8 +72,10 @@ def summarize(series) -> dict:
             step, best = max(pts, key=lambda p: (p[1], -p[0]))
             out["val"][m["ds"]] = (100.0 * best, step, int(m["n"]))
     testing = dict(series.get("timing_s/testing", []))
+    saving = dict(series.get("timing_s/save_checkpoint", []))
     steps = [(s, v) for s, v in series.get("timing_s/step", []) if s > 0]
-    out["wall_s"] = sum(v - testing.get(s, 0.0) for s, v in steps) if steps else None
+    out["wall_s"] = (sum(v - testing.get(s, 0.0) - saving.get(s, 0.0) for s, v in steps)
+                     if steps else None)
     out["val_s"] = sum(testing.get(s, 0.0) for s, _ in steps) if steps else None
     out["n_steps"] = len(steps)
     gen = [v for _, v in series.get("timing_s/gen", [])]
@@ -104,7 +111,7 @@ def main() -> None:
                 cells.append("—".rjust(20))
         print(label.ljust(w) + "".join(cells))
 
-    print("\ntraining wall-clock (timing_s/step minus validation), validation time separate")
+    print("\ntraining wall-clock (timing_s/step minus validation and checkpoint saves)")
     ref = runs[0][2]["wall_s"]
     print("run".ljust(w) + "steps".rjust(8) + "wall (min)".rjust(12) + "speedup".rjust(10)
           + "gen/step (s)".rjust(14) + "resp len".rjust(10) + "val (min)".rjust(11))

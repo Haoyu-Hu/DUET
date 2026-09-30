@@ -578,6 +578,21 @@ def _build_and_score_actor_judge(
     }
 
 
+def _duet_state_summary(state: dict) -> str:
+    """One-line fingerprint of DUET controller state (used to check save == load)."""
+    import hashlib
+    import pickle as _pkl
+    ps = state.get("prompt_state") or {}
+    ke = state.get("k_estimator") or {}
+    digest = hashlib.blake2b(_pkl.dumps((sorted((k, tuple(sorted(v.items()))) for k, v in ps.get("s_obs", {}).items()),
+                                         sorted((k, tuple(sorted(v.items()))) for k, v in ps.get("L_hat", {}).items()),
+                                         list(ke.get("lengths", [])), ke.get("current_k1"), ke.get("current_k2"))),
+                             digest_size=6).hexdigest()
+    return (f"s_obs={len(ps.get('s_obs', {}))} L_hat={len(ps.get('L_hat', {}))} "
+            f"K1={ke.get('current_k1')} K2={ke.get('current_k2')} window={len(ke.get('lengths', []))} "
+            f"digest={digest}")
+
+
 class RayPPOTrainer:
     # TODO: support each role have individual ray_worker_group_cls,
     # i.e., support different backend of different role
@@ -1905,6 +1920,27 @@ class RayPPOTrainer:
             )
             torch.save(self.arrol_head.state_dict(), arrol_path)
 
+        # Persist the DUET controller's cross-step state so a resumed run keeps
+        # the same allocation/abort policy: per-prompt σ̂_obs / L̂_q running
+        # statistics and the K1/K2 length window. Without it a resume would
+        # silently fall back to cold-start (uniform n_q, default K1/K2).
+        # The cumulative train-time/rollout counters ride along so the
+        # efficiency curves stay continuous across chunks.
+        if self.duet_allocator is not None:
+            import pickle
+            duet_state = {
+                "prompt_state": self._duet_prompt_state,
+                "k_estimator": getattr(self, "_duet_k_estimator", None),
+                "counters": {
+                    "train_time_cum_s": getattr(self, "_custom_train_time_cum_s", 0.0),
+                    "rollouts_produced_cum": getattr(self, "_custom_rollouts_produced_cum", 0),
+                    "rollouts_used_cum": getattr(self, "_custom_rollouts_used_cum", 0),
+                },
+            }
+            with open(os.path.join(local_global_step_folder, "duet_state.pkl"), "wb") as f:
+                pickle.dump(duet_state, f)
+            print(f"[DUET] saved controller state: {_duet_state_summary(duet_state)}")
+
     def _load_checkpoint(self):
         if self.config.trainer.resume_mode == "disable":
             return 0
@@ -2025,6 +2061,24 @@ class RayPPOTrainer:
                     "resuming with fresh head (warmup restarts)."
                 )
 
+        # Restore the DUET controller state (see _save_checkpoint). Counters are
+        # applied in fit() after it re-initialises them.
+        if self.duet_allocator is not None:
+            import pickle
+            duet_path = os.path.join(global_step_folder, "duet_state.pkl")
+            if os.path.exists(duet_path):
+                with open(duet_path, "rb") as f:
+                    duet_state = pickle.load(f)
+                self._duet_prompt_state = duet_state["prompt_state"]
+                if duet_state.get("k_estimator") is not None:
+                    self._duet_k_estimator = duet_state["k_estimator"]
+                self._duet_resume_counters = duet_state.get("counters")
+                print(f"[DUET] restored controller state: {_duet_state_summary(duet_state)}")
+            else:
+                raise RuntimeError(
+                    f"DUET checkpoint {global_step_folder} has no duet_state.pkl; "
+                    "resuming would restart the controller from cold start.")
+
     def _balance_batch(self, batch: DataProto, metrics, logging_prefix="global_seqlen"):
         """Reorder the data on single controller such that each dp rank gets similar total tokens"""
         attention_mask = batch.batch["attention_mask"]
@@ -2129,7 +2183,12 @@ class RayPPOTrainer:
 
         # perform validation before training
         # currently, we only support validation using the reward_function.
-        if self.val_reward_fn is not None and self.config.trainer.get("val_before_train", True):
+        _resumed = self.global_steps > 0
+        if _resumed:
+            print(f"Resumed at step {self.global_steps}: skipping val_before_train "
+                  "(same weights as the last checkpoint).")
+        if (self.val_reward_fn is not None and self.config.trainer.get("val_before_train", True)
+                and not _resumed):
             val_metrics = self._validate()
             assert val_metrics, f"{val_metrics=}"
             pprint(f"Initial validation metrics: {val_metrics}")
@@ -2152,6 +2211,11 @@ class RayPPOTrainer:
         self._custom_train_time_cum_s = 0.0
         self._custom_rollouts_produced_cum = 0
         self._custom_rollouts_used_cum = 0
+        _rc = getattr(self, "_duet_resume_counters", None)
+        if _rc:
+            self._custom_train_time_cum_s = float(_rc.get("train_time_cum_s", 0.0))
+            self._custom_rollouts_produced_cum = int(_rc.get("rollouts_produced_cum", 0))
+            self._custom_rollouts_used_cum = int(_rc.get("rollouts_used_cum", 0))
 
         repeat_sampling_sglang_grpo = (
             self.config.actor_rollout_ref.rollout.name == "sglang"
@@ -4819,6 +4883,13 @@ class RayPPOTrainer:
                             print("Force saving checkpoint: ESI instance expiration approaching.")
                         with marked_timer("save_checkpoint", timing_raw, color="green"):
                             self._save_checkpoint()
+                        _debug_stop = os.environ.get("DUET_DEBUG_STOP_AFTER_STEP")
+                        if (esi_close_to_expiration or (_debug_stop and self.global_steps >= int(_debug_stop))) \
+                                and not is_last_step:
+                            # Chunked runs: the job's time limit is near (or a test asked
+                            # to stop). Log this step, then exit; the next job resumes
+                            # from the checkpoint just written.
+                            self._duet_stop_after_this_step = True
 
                 steps_duration = timing_raw["step"]
                 self.max_steps_duration = max(self.max_steps_duration, steps_duration)
@@ -4896,5 +4967,11 @@ class RayPPOTrainer:
 
                 if is_last_step:
                     pprint(f"Final validation metrics: {last_val_metrics}")
+                    progress_bar.close()
+                    return
+
+                if getattr(self, "_duet_stop_after_this_step", False):
+                    print(f"[chunk] checkpoint at step {self.global_steps - 1} written; "
+                          "stopping this job so the next one resumes from it.")
                     progress_bar.close()
                     return
