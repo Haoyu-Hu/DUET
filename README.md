@@ -3,6 +3,8 @@
 
 🎉 **DUET has been accepted to NeurIPS 2026!**
 
+🚀 **DUET is now upgraded to vLLM V1** (vLLM 0.16), with consistently leading efficiency and performance over GRPO.
+
 ![DUET in four panels: the Allocator and the Stopper sing a duet kept on budget by one conductor, λ*](figure/duet_comic.svg)
 
 ![DUET method: allocate, generate, update under one budget-pressure signal λ* (animated)](figure/duet_method.svg)
@@ -35,40 +37,12 @@ The repository contains the full DUET stack: allocator + surrogate + marker-gate
 - `torch==2.9.1`, `verl==0.4.1` (vendored, patched), `vllm==0.16.0`, `ray==2.54`,
   `tensordict==0.9.1`, `transformers>=4.56,<5`, `flash-attn==2.8.3`.
 
-### vLLM V1 (this branch)
+### vLLM V1
 
-The paper's runs used vLLM 0.9.2 with the **V0** engine, because DUET's stop
-rule was a per-request `LogitsProcessor`, which V1 did not support (see the
-`master` branch). This branch runs **every method on vLLM 0.16.0's V1
-engine**:
-
-- DUET's marker-gated stop rule is `DuetV1StopProcessor`
-  (`src/duet/duet_v1_logits_processor.py`), a V1 batch-level logits
-  processor registered at engine start for DUET cells only; per-request
-  arguments travel in `SamplingParams.extra_args`, and the
-  abort / marker / ε-keep flags come back through an in-process registry.
-- It is a decision-for-decision port of the V0 `DuetStopProcessor`: the
-  parity test drives both with identical logits and token streams (with
-  requests joining, leaving, swapping slots and being preempted) and
-  requires identical stop positions and flags:
-  `python -m pytest tests/test_duet_v1_logits_processor.py -q`.
-- The confidence signal is computed for all armed requests in one batched
-  op per step (V0 synced once per request per token).
-- Async scheduling is off for every method (vLLM ≥ 0.14 enables it by
-  default), and the ε-keep coin uses a process-independent seed.
-- LoRA weight sync is not ported to vLLM ≥ 0.12 on this branch (runs are
-  full-parameter, `--lora-rank 0`).
-
-Minimal verification (GRPO vs DUET on the same V1 engine):
-
-```bash
-SMOKE=1 bash scripts/verify_v1.sh          # ~8 steps each: plumbing check
-bash scripts/verify_v1.sh                  # GRPO (full) vs DUET @ 50%, 232 steps
-DUET_BUDGETS="0.5 1.0" SEEDS="0 1 2" bash scripts/verify_v1.sh
-```
-
-`scripts/compare_runs.py` prints best mean@4 per benchmark, training
-wall-clock (validation excluded), speedup vs GRPO, and DUET diagnostics.
+DUET supports vLLM's V1 engine (vLLM 0.16), which this branch uses for every
+method. To faithfully replicate the paper, which ran DUET and the GRPO
+reference on the vLLM V0 engine (0.9.2), use the
+[`master` branch](https://github.com/Haoyu-Hu/DUET/tree/master).
 
 ## Setup
 
