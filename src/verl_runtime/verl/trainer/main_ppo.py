@@ -49,6 +49,10 @@ def run_ppo(config) -> None:
                 }
             },
             num_cpus=config.ray_init.num_cpus,
+            # Explicit GPU count (None = let Ray detect via NVML). Detection can
+            # transiently report 0 on a freshly handed-over Slurm node, and then
+            # the resource-pool check fails before any worker starts.
+            num_gpus=config.ray_init.get("num_gpus", None),
         )
 
     # Create a remote instance of the TaskRunner class, and

@@ -763,6 +763,7 @@ def _build_duet_predictable(args: Any) -> PipelineArtifacts:
             f"  trainer.project_name={shlex.quote(args.project)} \\",
             f"  trainer.experiment_name={shlex.quote(experiment_name)} \\",
             f"  trainer.n_gpus_per_node={args.gpus_per_node} \\",
+            f"  ray_init.num_gpus={args.gpus_per_node} \\",
             "  trainer.nnodes=1 \\",
             f"  trainer.save_freq={args.save_freq} \\",
             "  trainer.max_actor_ckpt_to_keep=1 \\",
