@@ -112,14 +112,20 @@ def main() -> None:
         print(label.ljust(w) + "".join(cells))
 
     print("\ntraining wall-clock (timing_s/step minus validation and checkpoint saves)")
-    ref = runs[0][2]["wall_s"]
-    print("run".ljust(w) + "steps".rjust(8) + "wall (min)".rjust(12) + "speedup".rjust(10)
+    # Unequal step counts (a run still in progress): compare per-step time.
+    same_len = len({s["n_steps"] for _, _, s in runs}) == 1
+    ref = runs[0][2]["wall_s"] / max(1, runs[0][2]["n_steps"]) if runs[0][2]["wall_s"] else None
+    if not same_len:
+        print("(runs have different step counts: speedup uses training time per step)")
+    print("run".ljust(w) + "steps".rjust(8) + "wall (min)".rjust(12) + "s/step".rjust(9) + "speedup".rjust(10)
           + "gen/step (s)".rjust(14) + "resp len".rjust(10) + "val (min)".rjust(11))
     for label, _, s in runs:
         wall = s["wall_s"]
-        sp = f"{ref / wall:.2f}x" if (ref and wall) else "—"
+        per = wall / max(1, s["n_steps"]) if wall else None
+        sp = f"{ref / per:.2f}x" if (ref and per) else "—"
         print(label.ljust(w) + f"{s['n_steps']:>8}"
-              + (f"{wall / 60:12.1f}" if wall else "—".rjust(12)) + sp.rjust(10)
+              + (f"{wall / 60:12.1f}" if wall else "—".rjust(12))
+              + (f"{per:9.1f}" if per else "—".rjust(9)) + sp.rjust(10)
               + (f"{s['gen_med']:14.1f}" if s["gen_med"] else "—".rjust(14))
               + (f"{s['resp_len']:10.0f}" if s["resp_len"] else "—".rjust(10))
               + (f"{s['val_s'] / 60:11.1f}" if s["val_s"] is not None else "—".rjust(11)))
