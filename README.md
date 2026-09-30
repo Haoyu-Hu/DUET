@@ -31,14 +31,44 @@ The repository contains the full DUET stack: allocator + surrogate + marker-gate
 ## Hardware & dependencies
 
 - (**Only For Paper Replication**) 1× node, ≥ 8× H100 80 GB (Qwen3-4B uses TP=2; Qwen3-1.7B uses TP=1).
-- Python 3.12, CUDA 13 host, `cu128` PyTorch wheels.
-- `torch==2.7.0`, `verl==0.4.1`, `vllm==0.9.x`, `ray==2.54`, `tensordict==0.6.2`,
-  `flash-attn>=2.7.4,<3` (currently resolves to `2.7.4.post1`).
+- Python 3.12, `cu129` PyTorch wheels (x86_64 or aarch64).
+- `torch==2.9.1`, `verl==0.4.1` (vendored, patched), `vllm==0.16.0`, `ray==2.54`,
+  `tensordict==0.9.1`, `transformers>=4.56,<5`, `flash-attn==2.8.3`.
 
-DUET requires **vLLM V0** because per-request `LogitsProcessors` are not
-supported under V1 in vLLM 0.9.2. Both `scripts/run_duet.sh` and
-`scripts/run_grpo.sh` export `VLLM_USE_V1=0` before vLLM is imported, so
-DUET and the GRPO reference run on the same engine (as in the paper).
+### vLLM V1 (this branch)
+
+The paper's runs used vLLM 0.9.2 with the **V0** engine, because DUET's stop
+rule was a per-request `LogitsProcessor`, which V1 did not support (see the
+`master` branch). This branch runs **every method on vLLM 0.16.0's V1
+engine**:
+
+- DUET's marker-gated stop rule is `DuetV1StopProcessor`
+  (`src/duet/duet_v1_logits_processor.py`), a V1 batch-level logits
+  processor registered at engine start for DUET cells only; per-request
+  arguments travel in `SamplingParams.extra_args`, and the
+  abort / marker / ε-keep flags come back through an in-process registry.
+- It is a decision-for-decision port of the V0 `DuetStopProcessor`: the
+  parity test drives both with identical logits and token streams (with
+  requests joining, leaving, swapping slots and being preempted) and
+  requires identical stop positions and flags:
+  `python -m pytest tests/test_duet_v1_logits_processor.py -q`.
+- The confidence signal is computed for all armed requests in one batched
+  op per step (V0 synced once per request per token).
+- Async scheduling is off for every method (vLLM ≥ 0.14 enables it by
+  default), and the ε-keep coin uses a process-independent seed.
+- LoRA weight sync is not ported to vLLM ≥ 0.12 on this branch (runs are
+  full-parameter, `--lora-rank 0`).
+
+Minimal verification (GRPO vs DUET on the same V1 engine):
+
+```bash
+SMOKE=1 bash scripts/verify_v1.sh          # ~8 steps each: plumbing check
+bash scripts/verify_v1.sh                  # GRPO (full) vs DUET @ 50%, 232 steps
+DUET_BUDGETS="0.5 1.0" SEEDS="0 1 2" bash scripts/verify_v1.sh
+```
+
+`scripts/compare_runs.py` prints best mean@4 per benchmark, training
+wall-clock (validation excluded), speedup vs GRPO, and DUET diagnostics.
 
 ## Setup
 
@@ -170,8 +200,10 @@ duet-code-repo/
 │   ├── fig1_money_plot.png           # main-results figure
 │   └── duet_results.svg              # animated headline results
 ├── scripts/
-│   ├── run_grpo.sh                   # GRPO reference launcher (forces vLLM V0)
-│   ├── run_duet.sh                   # DUET launcher (forces vLLM V0)
+│   ├── run_grpo.sh                   # GRPO reference launcher (vLLM V1)
+│   ├── run_duet.sh                   # DUET launcher (vLLM V1)
+│   ├── verify_v1.sh                  # minimal GRPO-vs-DUET check on V1
+│   ├── compare_runs.py               # side-by-side summary from TensorBoard
 │   ├── _model_config.sh              # per-model anchored overrides
 │   └── setup/
 │       ├── install.sh                # venv + torch + vllm + verl
@@ -184,11 +216,14 @@ duet-code-repo/
     ├── duet/                         # DUET package
     │   ├── duet_allocator.py
     │   ├── duet_surrogate.py
-    │   ├── duet_logits_processor.py
+    │   ├── duet_logits_processor.py  # V0 per-request stop rule (reference)
+    │   ├── duet_v1_logits_processor.py  # V1 batch-level port (used here)
     │   ├── duet_marker_detector.py
     │   ├── duet_prompt_state.py
     │   ├── data_utils.py
     │   ├── model_store.py
     │   └── pipeline.py               # generates the verl launcher .sh
     └── verl_runtime/verl/            # vendored verl + DUET surgical patches
+tests/
+└── test_duet_v1_logits_processor.py # V0-vs-V1 stop-rule parity
 ```

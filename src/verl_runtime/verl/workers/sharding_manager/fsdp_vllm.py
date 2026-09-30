@@ -249,7 +249,7 @@ class FSDPVLLMShardingManager(BaseShardingManager):
             return data
 
         # TODO: Current impl doesn't consider FSDP with torch micro-dp
-        group = vllm_ps.get_tensor_model_parallel_group().device_group
+        group = vllm_ps.get_tp_group().device_group  # get_tensor_model_parallel_group() removed in vLLM 0.12
 
         all_gather_data_proto(data=data, process_group=group)
         return data
@@ -263,7 +263,9 @@ class FSDPVLLMShardingManager(BaseShardingManager):
         return data.chunk(chunks=self.tp_size)[self.tp_rank]
 
     def update_params(self, updated_params, peft_config=None):
-        model = self.model_runner.model
+        # get_model() unwraps the CUDA-graph wrapper (V1, enforce_eager=False) so the
+        # MoE weight-loader patch below sees the real model class.
+        model = self.model_runner.get_model()
         if peft_config:
             if self.base_sync_done:
                 lora_int_id = int(time.time_ns() % 0x7FFFFFFF)

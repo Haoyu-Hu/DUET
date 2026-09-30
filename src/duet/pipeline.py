@@ -311,6 +311,10 @@ def _duet_override_lines(args: Any) -> list[str]:
         f"  +duet.k_update_every={args.duet_k_update_every} \\",
         f"  +duet.n_min={args.duet_n_min} \\",
         f"  +duet.n_max={args.duet_n_max} \\",
+        # vLLM V1: register the batch-level DUET stop processor at engine start
+        # (only for DUET cells, so GRPO's engine carries no custom processor).
+        "  '+actor_rollout_ref.rollout.engine_kwargs.vllm.logits_processors="
+        "[\"duet.duet_v1_logits_processor:DuetV1StopProcessor\"]' \\",
     ]
 
 
@@ -668,7 +672,6 @@ def _build_duet_predictable(args: Any) -> PipelineArtifacts:
             *_resolve_rollout_backend_lines(),
             'cd "$PROJECT_ROOT"',
             "unset VLLM_ATTENTION_BACKEND",
-            'export VLLM_USE_V1="${VLLM_USE_V1:-0}"',  # V0 unless pre-set: paper cells all ran V0
             f"export TENSORBOARD_DIR={_quote(tensorboard_dir)}",
             f"EXPERIMENT_LOG={_quote(train_log_path)}",
             f'mkdir -p {_quote(tensorboard_dir)} "$(dirname "$EXPERIMENT_LOG")"',

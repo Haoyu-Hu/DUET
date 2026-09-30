@@ -47,8 +47,10 @@ from tensordict import TensorDict
 from vllm import LLM, SamplingParams
 from vllm.distributed import parallel_state as vllm_ps
 from vllm.lora.request import LoRARequest
-from vllm.model_executor.sampling_metadata import SamplingMetadata
-from vllm.worker.worker_base import WorkerWrapperBase
+try:  # vLLM <= 0.11.0
+    from vllm.worker.worker_base import WorkerWrapperBase
+except ModuleNotFoundError:  # vLLM >= 0.11.1 (V0 worker package removed)
+    from vllm.v1.worker.worker_base import WorkerWrapperBase
 
 from verl import DataProto
 from verl.utils.debug import GPUMemoryLogger
@@ -174,6 +176,11 @@ class vLLMRollout(BaseRollout):
             max_num_seqs=max_num_seqs,
             enable_chunked_prefill=config.enable_chunked_prefill,
             enable_prefix_caching=True,
+            # vLLM >= 0.14 turns async scheduling on for external_launcher by
+            # default; it hands logits processors placeholder (-1) tokens and
+            # decides the next step before a forced EOS lands. Keep it off for
+            # every method so DUET and GRPO share the same engine behaviour.
+            async_scheduling=False,
             trust_remote_code=trust_remote_code,
             seed=config.get("seed", 0),
             **lora_kwargs,
@@ -370,10 +377,11 @@ class vLLMRollout(BaseRollout):
 
         # DUET joint controller (paper §5): the trainer pre-replicates the
         # batch by per-prompt n_q and stashes per-replica STOP THRESHOLDS in
-        # non_tensor_batch (one per replica). When present we attach a
-        # per-prompt DuetStopProcessor LogitsProcessor that forces EOS when
-        # the chosen confidence signal crosses the threshold (paper §5.2
-        # T2). vLLM uses the SHARED config.response_length max_tokens cap
+        # non_tensor_batch (one per replica). When present, each replica's
+        # SamplingParams carries extra_args for DuetV1StopProcessor (the V1
+        # port of DuetStopProcessor), which forces EOS when the chosen
+        # confidence signal crosses the threshold (paper §5.2 T2) or the
+        # marker-gated abort fires. vLLM uses the SHARED config.response_length max_tokens cap
         # for all prompts → uniform response shape across DP workers.
         _duet_stop_threshold = non_tensor_batch.pop("duet_stop_threshold", None)
         _duet_signal_mode = prompts.meta_info.get("duet_stop_signal_mode")
@@ -405,68 +413,44 @@ class vLLMRollout(BaseRollout):
         with self.update_sampling_params(**kwargs):
             if _duet_stop_threshold is not None and _duet_signal_mode is not None:
                 # DUET active: build per-prompt SamplingParams each carrying its
-                # own DuetStopProcessor. SHARED max_tokens=config.response_length
+                # own DUET stop arguments. SHARED max_tokens=config.response_length
                 # so response shape is uniform across DP workers (no concat issue).
                 from copy import copy as _copy
-                from duet.duet_logits_processor import DuetStopProcessor
-                from duet.duet_marker_detector import make_detector as _make_md
+                from duet.duet_v1_logits_processor import build_extra_args as _duet_extra_args
+                from duet.duet_v1_logits_processor import stable_seed as _duet_seed
                 _eos = int(eos_token_id) if not isinstance(eos_token_id, list) else int(eos_token_id[0])
-                # v3: build a single shared marker detector if domain is set
-                # (stateless across rollouts → safe to share). When None,
-                # processor falls back to v2 behavior.
-                _shared_marker_detector = None
-                if _duet_marker_domain is not None:
-                    # vLLMRollout (this class) doesn't store self.tokenizer
-                    # (only vLLMAsyncRollout does). Pull tokenizer from the
-                    # vLLM engine directly — it owns one for its own decoding.
-                    try:
-                        _md_tokenizer = self.inference_engine.get_tokenizer()
-                    except Exception:
-                        # Fallback path for older vLLM versions
-                        try:
-                            _md_tokenizer = self.inference_engine.llm_engine.tokenizer.tokenizer
-                        except Exception:
-                            _md_tokenizer = None
-                    if _md_tokenizer is not None:
-                        _shared_marker_detector = _make_md(
-                            tokenizer=_md_tokenizer,
-                            domain=str(_duet_marker_domain),
-                        )
-                    else:
-                        # Detector unavailable → fall back to legacy v2 LP
-                        # behavior. Print once for diagnosis.
-                        if os.environ.get("DUET_TRACE", "0") == "1":
-                            print("[DUET-TRACE] marker detector tokenizer unavailable; "
-                                  "falling back to v2 LP", flush=True)
+                # vLLM V1: DuetV1StopProcessor is registered once at engine start
+                # (engine_kwargs.vllm.logits_processors) and reads each request's
+                # arguments from SamplingParams.extra_args. Outcome flags come back
+                # through its in-process FLAGS registry, keyed by uid (the engine
+                # runs in this process under external_launcher).
+                self._duet_generate_calls = getattr(self, "_duet_generate_calls", 0) + 1
                 _per_prompt_sp = []
-                _per_prompt_lps = []   # keep refs to read did_abort/saw_marker after
+                _duet_uids = []
                 for _i, _thr in enumerate(_duet_stop_threshold):
                     _sp = _copy(self.sampling_params)
                     _sp.n = 1  # DUET pre-replicates; vLLM must not multiply
-                    # Per-rollout RNG seed: hash(base, step, row_idx). Mask to
-                    # 31 bits so it fits in random.Random's int domain.
-                    _row_rng = (
-                        hash(("duet_eps_keep", _duet_rng_base,
-                              _duet_rng_step, _i)) & 0x7FFFFFFF
-                    )
-                    _lp = DuetStopProcessor(
+                    _uid = f"duet:{_duet_rng_step}:{self._duet_generate_calls}:{_i}"
+                    _sp.extra_args = _duet_extra_args(
+                        uid=_uid,
                         eos_token_id=_eos,
                         threshold=float(_thr),
                         signal_mode=str(_duet_signal_mode),
                         eps_len=_duet_eps_len,
                         min_tokens=_duet_min_tokens,
-                        rng_seed=_row_rng,
                         top_k=_duet_top_k,
                         hysteresis_k=_duet_hysteresis_k,
-                        marker_detector=_shared_marker_detector,
+                        marker_domain=_duet_marker_domain,
                         k1=int(_duet_k1) if _duet_k1 is not None else None,
                         k2=int(_duet_k2) if _duet_k2 is not None else None,
                         grace_window=_duet_grace,
                         abort_eps=_duet_abort_eps,
+                        # Process-independent (V0 used Python hash(), salted per
+                        # process unless PYTHONHASHSEED reached the worker).
+                        rng_seed=_duet_seed("duet_eps_keep", _duet_rng_base, _duet_rng_step, _i),
                     )
-                    _sp.logits_processors = [_lp]
                     _per_prompt_sp.append(_sp)
-                    _per_prompt_lps.append(_lp)
+                    _duet_uids.append(_uid)
                 if os.environ.get("DUET_TRACE", "0") == "1":
                     print(f"[DUET-TRACE] vllm generate with per-prompt LP: "
                           f"|inputs|={len(vllm_inputs)}, signal={_duet_signal_mode}, "
@@ -575,23 +559,19 @@ class vLLMRollout(BaseRollout):
         # saw_marker=True → reward signal expected to be valid → keep at full
         # SNIPS weight. Plumbed through non_tensor_batch (length matches
         # batch_size since each prompt has one LP).
-        if (_duet_stop_threshold is not None
-                and _duet_signal_mode is not None
-                and _per_prompt_lps):
+        if _duet_stop_threshold is not None and _duet_signal_mode is not None:
+            from duet.duet_v1_logits_processor import pop_flags as _duet_pop_flags
+            _flags = _duet_pop_flags(_duet_uids)
             non_tensor_batch["duet_did_abort"] = np.array(
-                [bool(lp.did_abort) for lp in _per_prompt_lps],
-                dtype=bool,
+                [bool(f["did_abort"]) for f in _flags], dtype=bool,
             )
             non_tensor_batch["duet_saw_marker"] = np.array(
-                [bool(lp.saw_marker) for lp in _per_prompt_lps],
-                dtype=bool,
+                [bool(f["saw_marker"]) for f in _flags], dtype=bool,
             )
-            # Post 2026-04-28 fix: ε-kept rollouts have saw_marker=False AND
-            # did_abort=False AND eps_kept=True. The 1/abort_eps SNIPS factor
-            # is applied to *only* these (not natural-EOS-before-K2 rollouts).
+            # ε-kept rollouts: saw_marker=False, did_abort=False, eps_kept=True.
+            # The trainer applies the 1/abort_eps SNIPS factor to only these.
             non_tensor_batch["duet_eps_kept"] = np.array(
-                [bool(getattr(lp, "eps_kept", False)) for lp in _per_prompt_lps],
-                dtype=bool,
+                [bool(f["eps_kept"]) for f in _flags], dtype=bool,
             )
 
         # ARRoL faithful: tear down the patch and ship decisions back to trainer
@@ -617,12 +597,9 @@ class vLLMRollout(BaseRollout):
 def _monkey_patch_compute_logits(model, vocab_size: int):
     original_compute_logits = model.compute_logits
 
-    def compute_logits(
-        self,
-        hidden_states: torch.Tensor,
-        sampling_metadata: SamplingMetadata,
-    ) -> torch.Tensor:
-        logits = original_compute_logits(hidden_states, sampling_metadata)
+    # V1 dropped SamplingMetadata from compute_logits; forward whatever is passed.
+    def compute_logits(self, hidden_states: torch.Tensor, *args, **kwargs) -> torch.Tensor:
+        logits = original_compute_logits(hidden_states, *args, **kwargs)
         logits[..., vocab_size:] = float("-inf")
         return logits
 

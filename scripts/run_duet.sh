@@ -2,8 +2,10 @@
 # Run a DUET experiment with a single model on the math train + multi-eval
 # benchmark suite.
 #
-# DUET requires per-request vLLM LogitsProcessors, which the V1 engine in
-# vLLM 0.9.2 does not support. This wrapper FORCES V0 (VLLM_USE_V1=0) before
+# vllm-v1 branch: DUET runs on vLLM 0.16's V1 engine (its only engine). The
+# stop rule is the batch-level DuetV1StopProcessor
+# (src/duet/duet_v1_logits_processor.py), registered at engine start for
+# DUET cells only.
 # vLLM is imported.
 #
 # Usage:
@@ -34,8 +36,6 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
-# DUET requires V0 vLLM. Must be set BEFORE python imports vLLM.
-export VLLM_USE_V1=0
 
 # Match the original launch_sirl.sh chain — these were exported BEFORE python
 # in the working setup. Missing them is what diverges runs on fresh servers.
@@ -132,5 +132,5 @@ echo "[run_duet] model=$MODEL_ALIAS gpus=$GPUS_PER_NODE seed=$SEED tag=$TAG"
 echo "[run_duet] budget=$DUET_BUDGET surrogate=$DUET_SURROGATE k_warmup=$DUET_K_WARMUP"
 echo "[run_duet] stop: signal=$DUET_STOP_SIGNAL mode=$DUET_THRESHOLD_MODE floor=$DUET_STOP_FLOOR min_tokens=$DUET_MIN_TOKENS hyst_k=$DUET_HYSTERESIS_K"
 echo "[run_duet] marker: domain=$DUET_MARKER_DOMAIN grace=$DUET_GRACE_WINDOW abort_eps=$DUET_ABORT_EPS"
-echo "[run_duet] VLLM_USE_V1=$VLLM_USE_V1 (DUET requires V0)"
+echo "[run_duet] engine: vLLM $(python -c 'import vllm; print(vllm.__version__)' 2>/dev/null || echo ?) V1 (same as GRPO)"
 exec python src/run_duet_verl.py "${ARGS[@]}" --launch "$@"

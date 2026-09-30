@@ -2,9 +2,11 @@
 # Install DUET environment.
 #
 # 1. Creates a venv at <repo>/venv (override with --venv <path>).
-# 2. Installs torch + torchvision from the cu128 PyTorch wheel index.
+# 2. Installs torch + torchvision from the cu129 PyTorch wheel index
+#    (the CUDA build vLLM 0.16.0 is compiled against).
 # 3. Installs the rest of the requirements from PyPI.
-# 4. Installs flash-attn with --no-build-isolation (must see torch).
+# 4. Installs the prebuilt flash-attn 2.8.3 wheel for torch 2.9 (x86_64 or
+#    aarch64); falls back to a source build with --no-build-isolation.
 # 5. Runs an import smoke check for torch / vllm / verl.
 #
 # Usage:
@@ -20,9 +22,9 @@ cd "$REPO_ROOT"
 
 VENV_PATH="$REPO_ROOT/venv"
 PY_BIN="${PYTHON_BIN:-python3.12}"
-CUDA_INDEX="${CUDA_INDEX:-cu128}"
-TORCH_VERSION="${TORCH_VERSION:-2.7.0}"
-TORCHVISION_VERSION="${TORCHVISION_VERSION:-0.22.0}"
+CUDA_INDEX="${CUDA_INDEX:-cu129}"
+TORCH_VERSION="${TORCH_VERSION:-2.9.1}"
+TORCHVISION_VERSION="${TORCHVISION_VERSION:-0.24.1}"
 SKIP_FLASH="${SKIP_FLASH:-0}"
 REQ_FILE="$REPO_ROOT/scripts/setup/requirements.txt"
 
@@ -54,43 +56,28 @@ source "$VENV_PATH/bin/activate"
 
 # Pin setuptools to satisfy both vllm (>=77.0.3) and the vendored verl (<81).
 python -m pip install --upgrade pip wheel
-python -m pip install 'setuptools>=77.0.3,<80'
+python -m pip install 'setuptools>=77.0.3,<81'
 
 echo "[install] Installing torch $TORCH_VERSION + torchvision $TORCHVISION_VERSION (cu_index=$CUDA_INDEX)"
 pip install --index-url "https://download.pytorch.org/whl/$CUDA_INDEX" \
     "torch==$TORCH_VERSION" "torchvision==$TORCHVISION_VERSION"
 
 echo "[install] Installing remaining requirements from PyPI"
-pip install -r "$REQ_FILE"
+# extra index so vLLM's own torch pin resolves to the CUDA build installed above
+pip install --extra-index-url "https://download.pytorch.org/whl/$CUDA_INDEX" -r "$REQ_FILE"
 
 if [[ "$SKIP_FLASH" != "1" ]]; then
-    # flash-attn imports torch in setup.py, so build isolation must be off.
-    # Pin range, not exact: PyPI only ships 2.7.4.post1 (no plain 2.7.4).
-    echo "[install] Installing flash-attn (>=2.7.4,<3, no build isolation)"
-    pip install "flash-attn>=2.7.4,<3" --no-build-isolation || {
-        echo "[install] flash-attn build failed; rerun with SKIP_FLASH=1 to bypass." >&2
-        exit 3
+    # flash-attn is used by the FSDP actor (vLLM bundles its own copy). Prefer
+    # the upstream prebuilt wheel for torch 2.9 / CUDA 12 / cp312.
+    FA_WHL="https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.9cxx11abiTRUE-cp312-cp312-linux_$(uname -m).whl"
+    echo "[install] Installing flash-attn 2.8.3 ($(uname -m) wheel)"
+    pip install "$FA_WHL" || {
+        echo "[install] prebuilt wheel failed; building flash-attn from source (no build isolation)"
+        pip install "flash-attn==2.8.3" --no-build-isolation || {
+            echo "[install] flash-attn build failed; rerun with SKIP_FLASH=1 to bypass." >&2
+            exit 3
+        }
     }
-fi
-
-# Patch vLLM 0.9.2's ovis.py to add exist_ok=True on the aimv2 registration.
-# Transformers >= 4.51 registers aimv2 natively; without exist_ok=True the
-# duplicate registration raises:
-#   ValueError: 'aimv2' is already used by a Transformers config, pick another name.
-# Fixed upstream in vLLM 0.10+; we patch in place since we pin <0.10 for verl
-# compatibility. Idempotent: skipped if exist_ok=True already present.
-OVIS_PY="$VENV_PATH/lib/python3.12/site-packages/vllm/transformers_utils/configs/ovis.py"
-if [[ -f "$OVIS_PY" ]]; then
-    if grep -qF 'AutoConfig.register("aimv2", AIMv2Config, exist_ok=True)' "$OVIS_PY"; then
-        echo "[install] $OVIS_PY already patched (aimv2 exist_ok=True)"
-    elif grep -qF 'AutoConfig.register("aimv2", AIMv2Config)' "$OVIS_PY"; then
-        echo "[install] Patching $OVIS_PY (aimv2 register exist_ok=True)"
-        sed -i 's|AutoConfig\.register("aimv2", AIMv2Config)|AutoConfig.register("aimv2", AIMv2Config, exist_ok=True)|' "$OVIS_PY"
-    else
-        echo "[install] WARNING: aimv2 register line not found in $OVIS_PY; vLLM layout may have changed"
-    fi
-else
-    echo "[install] WARNING: $OVIS_PY missing; vllm not installed?"
 fi
 
 echo "[install] Import smoke check"

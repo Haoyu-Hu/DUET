@@ -1,30 +1,33 @@
-# DUET dependencies. Target: Python 3.12, CUDA cu128 wheels.
+# DUET dependencies (vllm-v1 branch). Target: Python 3.12, CUDA 12.9 wheels.
 #
 # torch + torchvision are installed first by setup/install.sh from the PyTorch
-# CUDA wheel index (cu128). The lines below document the version pins; pip
-# will see them already installed and skip. cu128 wheels are forward-
-# compatible with CUDA 13 at runtime via PTX JIT.
+# CUDA wheel index (cu129, the CUDA build vLLM 0.16.0 is compiled against).
+# The lines below document the version pins; pip sees them installed and skips.
+# vLLM 0.16.0 is the newest release with prebuilt vLLM, torch AND flash-attn
+# wheels for both x86_64 and aarch64 that the vendored verl 0.4.1 supports
+# with contained patches (>=0.24 needs transformers 5).
 
 # ── Core ML stack ───────────────────────────────────────────────────────────
-torch==2.7.0
-torchvision==0.22.0
+torch==2.9.1
+torchvision==0.24.1
 torchdata>=0.10
 
 # ── Transformers / inference ────────────────────────────────────────────────
-transformers>=4.51,<5.0
+transformers>=4.56,<5.0
 tokenizers>=0.20
 accelerate>=1.13
-vllm>=0.9.0,<0.10
+vllm==0.16.0
 
-# DUET requires V0 vLLM (per-request LogitsProcessors are not supported under
-# V1 in vLLM 0.9.2). The scripts/run_duet.sh wrapper exports VLLM_USE_V1=0;
-# vLLM itself is the standard 0.9.x build.
+# V1 is vLLM's only engine here. DUET's stop rule is a V1 batch-level logits
+# processor (src/duet/duet_v1_logits_processor.py) registered at engine start.
 
 # ── verl runtime ────────────────────────────────────────────────────────────
 hydra-core==1.3.2
 omegaconf>=2.3
 ray==2.54.0
-tensordict==0.6.2
+# 0.6.2 has no aarch64 wheel/sdist; 0.9.1 works unchanged (upstream verl moved
+# to 0.8-0.9.1). Avoid 0.10.0: consolidate() returns a locked TensorDict.
+tensordict==0.9.1
 dill==0.4.0
 liger_kernel==0.7.0
 
@@ -54,16 +57,15 @@ huggingface_hub>=0.36
 pandas>=2.2
 pyarrow>=23
 sentencepiece==0.2.1
-protobuf>=4,<5
+protobuf>=5.29.6            # vLLM 0.16 floor (CVE-2026-0994)
 
 # ── Misc ────────────────────────────────────────────────────────────────────
-numpy>=1.26,<2.0
+numpy>=1.26                 # vLLM 0.16 pulls opencv>=4.13, which needs numpy 2
 matplotlib>=3.10
 tqdm>=4.67
 scipy>=1.13
 tensorboard>=2.16          # used by verl/utils/tracking.py for TB SummaryWriter
 
-# vllm 0.9.x requires setuptools>=77.0.3,<80; the vendored verl needs <81.
-# Intersection: >=77.0.3,<80.
+# vllm requires setuptools>=77.0.3; the vendored verl needs <81.
 setuptools>=77.0.3,<80
 wheel

@@ -480,7 +480,9 @@ actor_rollout_ref:
         swap_space: null
 
         # Whether to disable the preprocessor cache for multimodel models.
-        disable_mm_preprocessor_cache: False
+        # null = omitted (None values are dropped before LLM(...)); the argument
+        # was removed from vLLM's EngineArgs in 0.13.
+        disable_mm_preprocessor_cache: null
 
       # for sglang
       sglang:

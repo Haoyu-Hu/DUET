@@ -17,7 +17,10 @@ from typing import List
 
 from msgspec import field
 from packaging import version as vs
-from vllm.lora.models import LoRAModel
+try:  # vLLM >= 0.13
+    from vllm.lora.lora_model import LoRAModel
+except ImportError:
+    from vllm.lora.models import LoRAModel
 from vllm.lora.request import LoRARequest
 from vllm.lora.utils import get_adapter_absolute_path
 from vllm.lora.worker_manager import LRUCacheWorkerLoRAManager
@@ -115,6 +118,13 @@ class VLLMHijack:
     @staticmethod
     def hijack():
         def hijack__load_adapter(self, lora_request: TensorLoRARequest) -> LoRAModel:
+            if is_version_ge(pkg="vllm", minver="0.12"):
+                # from_lora_tensors/from_local_checkpoint changed signature in 0.12
+                # (see upstream verl v0.7.0 verl/utils/vllm/utils.py). Not ported on
+                # the vllm-v1 branch, whose runs are full-parameter (--lora-rank 0).
+                raise NotImplementedError(
+                    "LoRA weight sync is not ported to vLLM >= 0.12 on the vllm-v1 "
+                    "branch; run with --lora-rank 0")
             """
             based on vllm.lora.worker_manager.WorkerLoRAManager._load_adapter, support load adapter with lora tensors
 

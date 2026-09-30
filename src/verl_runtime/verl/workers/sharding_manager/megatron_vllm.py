@@ -201,7 +201,7 @@ class MegatronVLLMShardingManager(BaseShardingManager):
             return data
 
         # TODO: Current impl doesn't consider FSDP with torch micro-dp
-        group = vllm_ps.get_tensor_model_parallel_group().device_group
+        group = vllm_ps.get_tp_group().device_group  # get_tensor_model_parallel_group() removed in vLLM 0.12
 
         all_gather_data_proto(data=data, process_group=group)
         return data
