@@ -78,6 +78,16 @@ if [[ "$SKIP_FLASH" != "1" ]]; then
             exit 3
         }
     }
+    # flash-attn 2.8.3 also ships flash_attn/cute (FA4, Blackwell), written for an
+    # older nvidia-cutlass-dsl than vLLM 0.16 installs. vLLM probes it at import
+    # and only catches ImportError, so the mismatch (AttributeError: cutlass.cute.core
+    # has no ThrMma) kills vLLM import. verl only uses the FA2 kernels; removing
+    # the subpackage gives vLLM the same state as when flash-attn is absent.
+    FA_CUTE="$(python -c 'import flash_attn, os; print(os.path.join(os.path.dirname(flash_attn.__file__), "cute"))')"
+    if [[ -d "$FA_CUTE" ]]; then
+        echo "[install] Removing $FA_CUTE (FA4 CuTe kernels incompatible with vLLM's cutlass-dsl)"
+        rm -rf "$FA_CUTE"
+    fi
 fi
 
 echo "[install] Import smoke check"
