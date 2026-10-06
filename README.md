@@ -3,11 +3,9 @@
 
 🎉 **DUET has been accepted to NeurIPS 2026!**
 
-🚀 **DUET is now upgraded to vLLM V1** (vLLM 0.16), with consistently leading efficiency and performance over GRPO.
-
 ![DUET in four panels: the Allocator and the Stopper sing a duet kept on budget by one conductor, λ*](figure/duet_comic.svg)
 
-![DUET method: allocate, generate, update under one budget-pressure signal λ* (animated)](figure/duet_method.svg)
+![DUET method: allocate, generate, update under one budget-pressure signal λ* (animated)](figure/schematics-ver6.png)
 
 Official Repository of **DUET** (**DU**al-controlled tok**E**n alloca**T**ion), a joint allocator that splits a fixed
 training-time token budget across prompts (rollout count) *and* within each
@@ -16,8 +14,6 @@ rollout (per-prompt max-token cap) under a single Lagrange multiplier.
 ## Main Results
 
 ![DUET budget–accuracy frontier](figure/fig1_money_plot.png)
-
-![DUET headline results: 2.51× faster at half budget, and the lead widens as the budget tightens (animated)](figure/duet_results.svg)
 
 **DUET trains better models faster.** On Qwen3-1.7B-Base trained on MATH:
 
@@ -38,7 +34,7 @@ The repository contains the full DUET stack: allocator + surrogate + marker-gate
   `tensordict==0.9.1`, `transformers>=4.56,<5`, `flash-attn==2.8.3`.
 
 ### vLLM V1
-
+🚀 **DUET is now upgraded to vLLM V1**, with consistently leading efficiency and performance over GRPO.
 DUET supports vLLM's V1 engine (vLLM 0.16), which this branch uses for every
 method. To faithfully replicate the paper, which ran DUET and the GRPO
 reference on the vLLM V0 engine (0.9.2), use the
