@@ -1,5 +1,5 @@
 # DUET: Optimize Budget-Token Allocation for Reinforcement Learning with Verifiable Rewards
-[![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2605.08441) [![Github](https://img.shields.io/badge/DUET-000000?style=for-the-badge&logo=github&logoColor=000&logoColor=white)](https://github.com/Haoyu-Hu/DUET)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-B31B1B.svg)](https://arxiv.org/abs/2605.08441) [![Github](https://img.shields.io/badge/DUET-GitHub-black?logo=github)](https://github.com/Haoyu-Hu/DUET) [![YouTube](https://img.shields.io/badge/YouTube-DUET-red?logo=youtube&logoColor=white)](https://youtu.be/SSaPImG231A)
 
 🎉 **DUET has been accepted to NeurIPS 2026!**
 
